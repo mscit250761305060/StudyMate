@@ -4,12 +4,15 @@ import "./App.css";
 
 import Dashboard from "./pages/Dashboard";
 import Subjects from "./pages/Subjects";
+import Syllabus from "./pages/Syllabus";
+import LabPlan from "./pages/LabPlan";
+import PreviousPapers from "./pages/QuestionPapers"; // the file is still named QuestionPapers.jsx but exports PreviousPapers
 import StudyMaterials from "./pages/StudyMaterials";
 import AIAssistant from "./pages/AIAssistant";
-import QuestionPapers from "./pages/QuestionPapers";
 import Assignments from "./pages/Assignments";
 import PracticePapers from "./pages/PracticePapers";
 import NotFound from "./pages/NotFound";
+import PdfViewer from "./pages/PdfViewer";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import {
@@ -248,26 +251,25 @@ function App() {
         <header className="app-header">
           <div className="header-content">
             <div className="brand-block">
-              <h1>AI Study & Research Agent</h1>
-              <p>Your BSc IT academic assistant</p>
+              <h1>StudyMate</h1>
+              <p>Your BSc IT Academic Assistant</p>
             </div>
-
-            <nav className="main-nav" aria-label="Main navigation">
-              <NavLink to="/" className={navLinkClass}>Dashboard</NavLink>
-              <NavLink to="/subjects" className={navLinkClass}>Subjects</NavLink>
-              <NavLink to="/study-materials" className={navLinkClass}>Materials</NavLink>
-              <NavLink to="/ai-assistant" className={navLinkClass}>AI Assistant</NavLink>
-              <NavLink to="/question-papers" className={navLinkClass}>Papers</NavLink>
-              <NavLink to="/assignments" className={navLinkClass}>Assignments</NavLink>
-              <NavLink to="/practice-papers" className={navLinkClass}>Practice</NavLink>
+            
+            <div className="header-actions">
               <button
                 type="button"
                 className="admin-toggle-button"
-                onClick={() => setShowAdmin((prev) => !prev)}
+                onClick={() => setShowAdmin(!showAdmin)}
               >
-                {showAdmin ? "Back to App" : "Admin"}
+                {showAdmin ? "Back to Dashboard" : "Admin Panel"}
               </button>
-            </nav>
+              <div className="user-profile-circle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </div>
           </div>
         </header>
 
@@ -277,12 +279,13 @@ function App() {
           ) : (
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/subjects" element={<Subjects />} />
-              <Route path="/study-materials" element={<StudyMaterials />} />
+              <Route path="/syllabus" element={<Syllabus subjects={subjects} />} />
+              <Route path="/study-materials" element={<StudyMaterials subjects={subjects} />} />
+              <Route path="/assignments" element={<Assignments subjects={subjects} />} />
+              <Route path="/lab-plan" element={<LabPlan subjects={subjects} />} />
+              <Route path="/previous-papers" element={<PreviousPapers subjects={subjects} />} />
               <Route path="/ai-assistant" element={<AIAssistant />} />
-              <Route path="/question-papers" element={<QuestionPapers />} />
-              <Route path="/assignments" element={<Assignments />} />
-              <Route path="/practice-papers" element={<PracticePapers />} />
+              <Route path="/viewer" element={<PdfViewer />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}

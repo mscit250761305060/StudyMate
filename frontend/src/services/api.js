@@ -50,10 +50,11 @@ export const getChapters = async (subjectId) => {
 
 export const getChaptersBySubject = getChapters;
 
-export const getDocumentsBySubject = async (subjectId) => {
-  const response = await api.get(
-    `/documents/subject/${subjectId}`
-  );
+export const getDocumentsBySubject = async (subjectId, documentType = null) => {
+  const url = documentType 
+    ? `/documents/subject/${subjectId}?document_type=${documentType}`
+    : `/documents/subject/${subjectId}`;
+  const response = await api.get(url);
   return response.data;
 };
 

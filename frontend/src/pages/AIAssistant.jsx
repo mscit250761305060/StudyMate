@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { askQuestion } from "../services/api";
+import Breadcrumb from "../components/Breadcrumb";
 
 function AIAssistant() {
   const [question, setQuestion] = useState("");
@@ -38,6 +39,7 @@ function AIAssistant() {
 
   return (
     <div className="page-container">
+      <Breadcrumb items={[{ label: "AI Assistant" }]} />
       <div className="page-header">
         <h2>AI Study Assistant</h2>
         <p>Ask questions about your BSc IT study material.</p>

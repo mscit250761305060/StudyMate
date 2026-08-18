@@ -45,12 +45,11 @@ UPLOAD_DIR.mkdir(
 
 ALLOWED_DOCUMENT_TYPES = {
     "SYLLABUS",
-    "COURSE_MATERIAL",
-    "CHAPTER_MATERIAL",
+    "STUDY_MATERIAL",
     "ASSIGNMENT",
-    "PRACTICAL",
-    "COLLEGE_EXAM",
-    "UNIVERSITY_EXAM",
+    "LAB_PLAN",
+    "COLLEGE_PAPER",
+    "UNIVERSITY_PAPER",
 }
 
 
@@ -205,6 +204,58 @@ async def upload_document(
     db.add(document)
     db.commit()
     db.refresh(document)
+
+    # --------------------------------------------------
+    # Extract Text, Chunk, and Embed
+    # --------------------------------------------------
+    try:
+        extracted_text = extract_text_from_pdf(document.file_path)
+        if extracted_text:
+            document_content = DocumentContent(
+                document_id=document.id,
+                extracted_text=extracted_text,
+            )
+            db.add(document_content)
+            db.commit()
+            
+            chunks_text = create_chunks(extracted_text)
+            if chunks_text:
+                db_chunks = []
+                for index, chunk_text in enumerate(chunks_text):
+                    chunk = DocumentChunk(
+                        document_id=document.id,
+                        chunk_index=index,
+                        content=chunk_text,
+                        character_count=len(chunk_text),
+                    )
+                    db.add(chunk)
+                    db_chunks.append(chunk)
+                db.commit()
+                for c in db_chunks:
+                    db.refresh(c)
+                
+                from app.services.vector_store import store_chunks_in_qdrant
+                qdrant_chunks = []
+                for c in db_chunks:
+                    qdrant_chunks.append({
+                        "id": c.id,
+                        "document_id": document.id,
+                        "college_id": document.college_id,
+                        "course_id": document.course_id,
+                        "semester_id": document.semester_id,
+                        "subject_id": document.subject_id,
+                        "chapter_id": document.chapter_id,
+                        "document_type": document.document_type,
+                        "academic_year": document.academic_year,
+                        "exam_year": document.exam_year,
+                        "exam_type": document.exam_type,
+                        "chunk_index": c.chunk_index,
+                        "content": c.content,
+                        "character_count": c.character_count,
+                    })
+                store_chunks_in_qdrant(qdrant_chunks)
+    except Exception as e:
+        print(f"Extraction/Embedding failed: {e}")
 
     return {
         "message": "Document uploaded successfully",
@@ -416,19 +467,18 @@ def create_document_chunks(
 
 
 @router.get("/subject/{subject_id}")
-def get_documents_by_subject(subject_id: int):
+def get_documents_by_subject(subject_id: int, document_type: Optional[str] = None):
     from app.database.connection import SessionLocal
     from app.models.database_models import Document
 
     db = SessionLocal()
 
     try:
-        documents = (
-            db.query(Document)
-            .filter(Document.subject_id == subject_id)
-            .order_by(Document.id)
-            .all()
-        )
+        query = db.query(Document).filter(Document.subject_id == subject_id)
+        if document_type:
+            query = query.filter(Document.document_type == document_type)
+            
+        documents = query.order_by(Document.id).all()
 
         return [
             {

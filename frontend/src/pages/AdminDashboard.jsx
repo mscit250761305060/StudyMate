@@ -25,7 +25,7 @@ function AdminDashboard() {
   const [chapterId, setChapterId] = useState("");
 
   const [title, setTitle] = useState("");
-  const [documentType, setDocumentType] = useState("COURSE_MATERIAL");
+  const [documentType, setDocumentType] = useState("SYLLABUS");
   const [academicYear, setAcademicYear] = useState("");
   const [examYear, setExamYear] = useState("");
   const [examType, setExamType] = useState("");
@@ -42,7 +42,7 @@ function AdminDashboard() {
   const [error, setError] = useState("");
 
   const showExamFields = useMemo(
-    () => documentType === "COLLEGE_EXAM" || documentType === "UNIVERSITY_EXAM",
+    () => documentType === "COLLEGE_PAPER" || documentType === "UNIVERSITY_PAPER",
     [documentType]
   );
 
@@ -301,13 +301,12 @@ function AdminDashboard() {
               onChange={(event) => setDocumentType(event.target.value)}
               required
             >
-              <option value="COURSE_MATERIAL">Course Material</option>
-              <option value="CHAPTER_MATERIAL">Chapter Material</option>
               <option value="SYLLABUS">Syllabus</option>
+              <option value="STUDY_MATERIAL">Study Material</option>
               <option value="ASSIGNMENT">Assignment</option>
-              <option value="PRACTICAL">Practical</option>
-              <option value="COLLEGE_EXAM">College Exam</option>
-              <option value="UNIVERSITY_EXAM">University Exam</option>
+              <option value="LAB_PLAN">Lab Plan</option>
+              <option value="COLLEGE_PAPER">College Paper</option>
+              <option value="UNIVERSITY_PAPER">University Paper</option>
             </select>
           </div>
 
