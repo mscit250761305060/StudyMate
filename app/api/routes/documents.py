@@ -58,6 +58,8 @@ ALLOWED_DOCUMENT_TYPES = {
 async def upload_document(
     title: str = Form(...),
     document_type: str = Form(...),
+    college_id: int = Form(...),
+    course_id: int = Form(...),
     semester_id: int = Form(...),
     subject_id: int = Form(...),
     chapter_id: Optional[int] = Form(None),
@@ -88,24 +90,45 @@ async def upload_document(
         )
 
     # --------------------------------------------------
-    # Validate semester
+    # Validate academic hierarchy
     # --------------------------------------------------
+
+    from app.models.database_models import College, Course
+
+    college = db.query(College).filter(College.id == college_id).first()
+    if not college:
+        raise HTTPException(
+            status_code=404,
+            detail="College not found",
+        )
+
+    course = (
+        db.query(Course)
+        .filter(
+            Course.id == course_id,
+            Course.college_id == college_id,
+        )
+        .first()
+    )
+    if not course:
+        raise HTTPException(
+            status_code=404,
+            detail="Course not found for this college",
+        )
 
     semester = (
         db.query(Semester)
-        .filter(Semester.id == semester_id)
+        .filter(
+            Semester.id == semester_id,
+            Semester.course_id == course_id,
+        )
         .first()
     )
-
     if not semester:
         raise HTTPException(
             status_code=404,
-            detail="Semester not found"
+            detail="Semester not found for this course",
         )
-
-    # --------------------------------------------------
-    # Validate subject
-    # --------------------------------------------------
 
     subject = (
         db.query(Subject)
@@ -115,19 +138,13 @@ async def upload_document(
         )
         .first()
     )
-
     if not subject:
         raise HTTPException(
             status_code=404,
-            detail="Subject not found for this semester"
+            detail="Subject not found for this semester",
         )
 
-    # --------------------------------------------------
-    # Validate chapter if provided
-    # --------------------------------------------------
-
     if chapter_id is not None:
-
         chapter = (
             db.query(Chapter)
             .filter(
@@ -140,7 +157,7 @@ async def upload_document(
         if not chapter:
             raise HTTPException(
                 status_code=404,
-                detail="Chapter not found for this subject"
+                detail="Chapter not found for this subject",
             )
 
     # --------------------------------------------------
@@ -178,6 +195,8 @@ async def upload_document(
         academic_year=academic_year,
         exam_year=exam_year,
         exam_type=exam_type,
+        college_id=college_id,
+        course_id=course_id,
         semester_id=semester_id,
         subject_id=subject_id,
         chapter_id=chapter_id,
@@ -193,6 +212,8 @@ async def upload_document(
         "title": document.title,
         "document_type": document.document_type,
         "file_path": document.file_path,
+        "college_id": document.college_id,
+        "course_id": document.course_id,
         "semester_id": document.semester_id,
         "subject_id": document.subject_id,
         "chapter_id": document.chapter_id,
@@ -418,6 +439,8 @@ def get_documents_by_subject(subject_id: int):
                 "academic_year": document.academic_year,
                 "exam_year": document.exam_year,
                 "exam_type": document.exam_type,
+                "college_id": document.college_id,
+                "course_id": document.course_id,
                 "semester_id": document.semester_id,
                 "subject_id": document.subject_id,
                 "chapter_id": document.chapter_id,

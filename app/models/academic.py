@@ -43,3 +43,8 @@ class Document:
     academic_year: Optional[str] = None
     exam_year: Optional[int] = None
     exam_type: Optional[str] = None
+    college_id: Optional[int] = None
+    course_id: Optional[int] = None
+    semester_id: Optional[int] = None
+    subject_id: Optional[int] = None
+    chapter_id: Optional[int] = None

@@ -183,6 +183,16 @@ class Document(Base):
         nullable=True
     )
 
+    college_id: Mapped[int] = mapped_column(
+        ForeignKey("colleges.id"),
+        nullable=False
+    )
+
+    course_id: Mapped[int] = mapped_column(
+        ForeignKey("courses.id"),
+        nullable=False
+    )
+
     semester_id: Mapped[int] = mapped_column(
         ForeignKey("semesters.id"),
         nullable=False
