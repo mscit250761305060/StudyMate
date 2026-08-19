@@ -13,8 +13,11 @@ import Assignments from "./pages/Assignments";
 import PracticePapers from "./pages/PracticePapers";
 import NotFound from "./pages/NotFound";
 import PdfViewer from "./pages/PdfViewer";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 import AdminDashboard from "./pages/AdminDashboard";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import {
   getColleges,
   getCourses,
@@ -26,7 +29,9 @@ import {
   askQuestion,
 } from "./services/api";
 
-function App() {
+function InnerApp() {
+  const { user, isAdmin, logout } = useAuth();
+
   const [colleges, setColleges] = useState([]);
   const [courses, setCourses] = useState([]);
   const [semesters, setSemesters] = useState([]);
@@ -168,7 +173,11 @@ function App() {
   }, [selectedCourse]);
 
   useEffect(() => {
-    if (!selectedSemester) {
+    // Determine the semester to fetch subjects for.
+    // If user has a semester_id, use that. Otherwise use selectedSemester (if admin selects one).
+    const semesterIdToUse = user?.semester_id || selectedSemester?.id;
+    
+    if (!semesterIdToUse) {
       return;
     }
 
@@ -176,7 +185,7 @@ function App() {
       try {
         setLoadingSubjects(true);
         setSubjectError("");
-        const data = await getSubjects(selectedSemester.id);
+        const data = await getSubjects(semesterIdToUse);
         setSubjects(data);
       } catch (error) {
         console.error("Failed to load subjects:", error);
@@ -190,7 +199,7 @@ function App() {
     };
 
     loadSubjects();
-  }, [selectedSemester]);
+  }, [selectedSemester, user?.semester_id]);
 
   useEffect(() => {
     if (!selectedSubject) {
@@ -246,7 +255,6 @@ function App() {
     isActive ? "main-nav-link active" : "main-nav-link";
 
   return (
-    <BrowserRouter>
       <div className="app">
         <header className="app-header">
           <div className="header-content">
@@ -256,41 +264,79 @@ function App() {
             </div>
             
             <div className="header-actions">
-              <button
-                type="button"
-                className="admin-toggle-button"
-                onClick={() => setShowAdmin(!showAdmin)}
-              >
-                {showAdmin ? "Back to Dashboard" : "Admin Panel"}
-              </button>
-              <div className="user-profile-circle">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </div>
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      className="admin-toggle-button"
+                      onClick={() => setShowAdmin(!showAdmin)}
+                    >
+                      {showAdmin ? "Back to Dashboard" : "Admin Panel"}
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="admin-toggle-button"
+                    onClick={logout}
+                    style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)' }}
+                  >
+                    Logout
+                  </button>
+                  <div className="user-profile-circle" title={user.name}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </div>
+                </>
+              ) : (
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <NavLink to="/login" className="admin-toggle-button">Login</NavLink>
+                  <NavLink to="/register" className="admin-toggle-button" style={{ background: '#2563eb', borderColor: '#2563eb' }}>Register</NavLink>
+                </div>
+              )}
             </div>
           </div>
         </header>
 
         <main className="container">
-          {showAdmin ? (
+          {isAdmin && showAdmin ? (
             <AdminDashboard />
           ) : (
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/syllabus" element={<Syllabus subjects={subjects} />} />
-              <Route path="/study-materials" element={<StudyMaterials subjects={subjects} />} />
-              <Route path="/assignments" element={<Assignments subjects={subjects} />} />
-              <Route path="/lab-plan" element={<LabPlan subjects={subjects} />} />
-              <Route path="/previous-papers" element={<PreviousPapers subjects={subjects} />} />
-              <Route path="/ai-assistant" element={<AIAssistant />} />
-              <Route path="/viewer" element={<PdfViewer />} />
+              {user ? (
+                <>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/syllabus" element={<Syllabus subjects={subjects} />} />
+                  <Route path="/study-materials" element={<StudyMaterials subjects={subjects} />} />
+                  <Route path="/assignments" element={<Assignments subjects={subjects} />} />
+                  <Route path="/lab-plan" element={<LabPlan subjects={subjects} />} />
+                  <Route path="/previous-papers" element={<PreviousPapers subjects={subjects} />} />
+                  <Route path="/ai-assistant" element={<AIAssistant />} />
+                  <Route path="/viewer" element={<PdfViewer />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="*" element={<Login />} />
+                </>
+              )}
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}
         </main>
       </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <InnerApp />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

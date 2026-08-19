@@ -9,6 +9,41 @@ const api = axios.create({
   },
 });
 
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export const login = async (email, password) => {
+  const formData = new URLSearchParams();
+  formData.append("username", email);
+  formData.append("password", password);
+  
+  const response = await api.post("/api/v1/auth/login", formData, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+  return response.data;
+};
+
+export const register = async (name, email, password, course_id, semester_id) => {
+  const response = await api.post("/api/v1/auth/register", {
+    name,
+    email,
+    password,
+    course_id,
+    semester_id
+  });
+  return response.data;
+};
+
 export const getColleges = async () => {
   const response = await api.get("/academic/colleges");
   return response.data;

@@ -56,6 +56,11 @@ function AdminDashboard() {
       setError("");
       const data = await getColleges();
       setColleges(data);
+      
+      // Auto-select the first college since this website is for one specific college
+      if (data && data.length > 0) {
+        handleCollegeChange(String(data[0].id));
+      }
     } catch (err) {
       console.error(err);
       setError("Failed to load colleges.");
@@ -310,23 +315,7 @@ function AdminDashboard() {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="collegeSelect">College</label>
-            <select
-              id="collegeSelect"
-              value={collegeId}
-              onChange={(event) => handleCollegeChange(event.target.value)}
-              disabled={loadingColleges}
-              required
-            >
-              <option value="">Select College</option>
-              {colleges.map((college) => (
-                <option key={college.id} value={String(college.id)}>
-                  {college.name}
-                </option>
-              ))}
-            </select>
-          </div>
+
 
           <div className="form-group">
             <label htmlFor="courseSelect">Course</label>

@@ -1,5 +1,9 @@
 venv/
+.venv/
 __pycache__/
+.pytest_cache/
 *.pyc
 .env
 qdrant_storage/
+node_modules/
+frontend/node_modules/

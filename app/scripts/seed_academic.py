@@ -1,128 +1,107 @@
-from app.database.connection import SessionLocal
-from app.models.database_models import (
-    College,
-    Course,
-    Semester,
-)
+import os
+import sys
 
+# Add root directory to python path to import app modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
-def main():
-    db = SessionLocal()
+from sqlalchemy.orm import Session
+from app.database.connection import SessionLocal, engine, Base
+from app.models.database_models import College, Course, Semester, Subject
 
+# This is sample data. You can modify this dictionary to match your exact college curriculum!
+ACADEMIC_DATA = {
+    "college_name": "StudyMate Institute of Technology",
+    "courses": [
+        {
+            "name": "BSc IT",
+            "semesters": [
+                {
+                    "number": 1,
+                    "subjects": ["Programming Principles", "Digital Electronics", "Business Communication", "Mathematics I"]
+                },
+                {
+                    "number": 2,
+                    "subjects": ["Object Oriented Programming", "Database Management", "Web Technologies", "Mathematics II"]
+                },
+                {
+                    "number": 3,
+                    "subjects": ["Data Structures", "Computer Networks", "Operating Systems", "Python Programming"]
+                }
+            ]
+        },
+        {
+            "name": "BBA",
+            "semesters": [
+                {
+                    "number": 1,
+                    "subjects": ["Principles of Management", "Business Economics", "Financial Accounting"]
+                }
+            ]
+        }
+    ]
+}
+
+def seed_academic_data():
+    db: Session = SessionLocal()
     try:
-        # -----------------------------------------
-        # 1. College
-        # -----------------------------------------
-
-        college = (
-            db.query(College)
-            .filter(
-                College.name == "SSASIT"
-            )
-            .first()
-        )
-
+        # 1. Create or get College
+        college = db.query(College).filter(College.name == ACADEMIC_DATA["college_name"]).first()
         if not college:
-            college = College(
-                name="SSASIT"
-            )
-
+            print(f"Creating College: {ACADEMIC_DATA['college_name']}")
+            college = College(name=ACADEMIC_DATA["college_name"])
             db.add(college)
-            db.flush()
+            db.commit()
+            db.refresh(college)
 
-            print("College created: SSASIT")
+        # 2. Iterate through courses
+        for course_data in ACADEMIC_DATA["courses"]:
+            course = db.query(Course).filter(
+                Course.name == course_data["name"], 
+                Course.college_id == college.id
+            ).first()
+            
+            if not course:
+                print(f"  Creating Course: {course_data['name']}")
+                course = Course(name=course_data["name"], college_id=college.id)
+                db.add(course)
+                db.commit()
+                db.refresh(course)
 
-        else:
-            print(
-                f"College already exists: "
-                f"{college.name} "
-                f"(ID: {college.id})"
-            )
+            # 3. Iterate through semesters
+            for sem_data in course_data["semesters"]:
+                semester = db.query(Semester).filter(
+                    Semester.number == sem_data["number"],
+                    Semester.course_id == course.id
+                ).first()
 
-        # -----------------------------------------
-        # 2. BSc IT Course
-        # -----------------------------------------
+                if not semester:
+                    print(f"    Creating Semester: {sem_data['number']}")
+                    semester = Semester(number=sem_data["number"], course_id=course.id)
+                    db.add(semester)
+                    db.commit()
+                    db.refresh(semester)
 
-        course = (
-            db.query(Course)
-            .filter(
-                Course.name == "BSc IT",
-                Course.college_id == college.id,
-            )
-            .first()
-        )
+                # 4. Iterate through subjects
+                for subject_name in sem_data["subjects"]:
+                    subject = db.query(Subject).filter(
+                        Subject.name == subject_name,
+                        Subject.semester_id == semester.id
+                    ).first()
 
-        if not course:
-            course = Course(
-                name="BSc IT",
-                college_id=college.id,
-            )
-
-            db.add(course)
-            db.flush()
-
-            print("Course created: BSc IT")
-
-        else:
-            print(
-                f"Course already exists: "
-                f"{course.name} "
-                f"(ID: {course.id})"
-            )
-
-        # -----------------------------------------
-        # 3. Semester 3
-        # -----------------------------------------
-
-        semester = (
-            db.query(Semester)
-            .filter(
-                Semester.number == 3,
-                Semester.course_id == course.id,
-            )
-            .first()
-        )
-
-        if not semester:
-            semester = Semester(
-                number=3,
-                course_id=course.id,
-            )
-
-            db.add(semester)
-            db.flush()
-
-            print("Semester created: Semester 3")
-
-        else:
-            print(
-                f"Semester already exists: "
-                f"Semester {semester.number} "
-                f"(ID: {semester.id})"
-            )
-
+                    if not subject:
+                        print(f"      Creating Subject: {subject_name}")
+                        subject = Subject(name=subject_name, semester_id=semester.id)
+                        db.add(subject)
+                        
         db.commit()
+        print("\nAll academic data successfully saved to PostgreSQL!")
 
-        print()
-        print("Academic structure created successfully!")
-        print()
-        print(
-            f"College ID: {college.id}"
-        )
-        print(
-            f"Course ID: {course.id}"
-        )
-        print(
-            f"Semester ID: {semester.id}"
-        )
-
-    except Exception:
+    except Exception as e:
+        print(f"Error seeding academic data: {e}")
         db.rollback()
-        raise
-
     finally:
         db.close()
 
-
 if __name__ == "__main__":
-    main()
+    Base.metadata.create_all(bind=engine)
+    seed_academic_data()
