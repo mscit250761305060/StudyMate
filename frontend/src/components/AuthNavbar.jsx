@@ -12,10 +12,7 @@ function AuthNavbar() {
         </Link>
       </div>
       
-      <div className="auth-navbar-links">
-        <Link to="/login" className="auth-nav-link">Sign in</Link>
-        <Link to="/register" className="auth-nav-btn">Start for free</Link>
-      </div>
+      {/* Links removed as per request */}
     </nav>
   );
 }

@@ -174,7 +174,7 @@ function InnerApp() {
                   type="button"
                   className="admin-toggle-button"
                   onClick={logout}
-                  style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)' }}
+                  style={{ background: 'transparent', border: '1px solid rgba(0,0,0,0.1)' }}
                 >
                   Logout
                 </button>
