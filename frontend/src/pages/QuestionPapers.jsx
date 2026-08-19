@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DocumentSection from "../components/DocumentSection";
 
-function PreviousPapers({ subjects }) {
+function PreviousPapers({ semesters }) {
   const [paperType, setPaperType] = useState(null);
 
   if (!paperType) {
@@ -37,7 +37,8 @@ function PreviousPapers({ subjects }) {
         title={paperType === "COLLEGE_PAPER" ? "College Papers" : "University Papers"}
         description={`View ${paperType === "COLLEGE_PAPER" ? "college" : "university"} papers for your subjects.`}
         documentType={paperType}
-        subjects={subjects}
+        semesters={semesters}
+        basePath="/previous-papers"
       />
     </div>
   );

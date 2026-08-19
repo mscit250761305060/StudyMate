@@ -41,55 +41,7 @@ function AdminDashboard() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const showExamFields = useMemo(
-    () => documentType === "COLLEGE_PAPER" || documentType === "UNIVERSITY_PAPER",
-    [documentType]
-  );
-
-  useEffect(() => {
-    loadColleges();
-  }, []);
-
-  const loadColleges = async () => {
-    try {
-      setLoadingColleges(true);
-      setError("");
-      const data = await getColleges();
-      setColleges(data);
-      
-      // Auto-select the first college since this website is for one specific college
-      if (data && data.length > 0) {
-        handleCollegeChange(String(data[0].id));
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load colleges.");
-    } finally {
-      setLoadingColleges(false);
-    }
-  };
-
-  const loadDocuments = async (selectedSubjectId) => {
-    if (!selectedSubjectId) {
-      setDocuments([]);
-      return;
-    }
-
-    try {
-      setLoadingDocuments(true);
-      setError("");
-      const data = await getDocumentsBySubject(selectedSubjectId);
-      setDocuments(data);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load uploaded documents.");
-      setDocuments([]);
-    } finally {
-      setLoadingDocuments(false);
-    }
-  };
-
-  const handleCollegeChange = async (value) => {
+  async function handleCollegeChange(value) {
     setCollegeId(value);
     setCourseId("");
     setSemesterId("");
@@ -115,6 +67,49 @@ function AdminDashboard() {
       setError("Failed to load courses.");
     } finally {
       setLoadingCourses(false);
+    }
+  }
+
+  async function loadColleges() {
+    try {
+      setLoadingColleges(true);
+      setError("");
+      const data = await getColleges();
+      setColleges(data);
+      
+      // Auto-select the first college since this website is for one specific college
+      if (data && data.length > 0) {
+        handleCollegeChange(String(data[0].id));
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load colleges.");
+    } finally {
+      setLoadingColleges(false);
+    }
+  }
+
+  useEffect(() => {
+    loadColleges();
+  }, []);
+
+  const loadDocuments = async (selectedSubjectId) => {
+    if (!selectedSubjectId) {
+      setDocuments([]);
+      return;
+    }
+
+    try {
+      setLoadingDocuments(true);
+      setError("");
+      const data = await getDocumentsBySubject(selectedSubjectId);
+      setDocuments(data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load uploaded documents.");
+      setDocuments([]);
+    } finally {
+      setLoadingDocuments(false);
     }
   };
 
@@ -183,10 +178,8 @@ function AdminDashboard() {
     try {
       setLoadingChapters(true);
       setError("");
-      const [chapterData] = await Promise.all([
-        getChaptersBySubject(value),
-        loadDocuments(value),
-      ]);
+      // loadDocuments is removed as we don't display documents anymore
+      const chapterData = await getChaptersBySubject(value);
       setChapters(chapterData);
     } catch (err) {
       console.error(err);
@@ -265,14 +258,6 @@ function AdminDashboard() {
 
       setMessage("Document uploaded successfully!");
       setSelectedFile(null);
-      if (!showExamFields) {
-        setAcademicYear("");
-      }
-      if (showExamFields) {
-        setExamYear("");
-        setExamType("");
-      }
-      await loadDocuments(subjectId);
       event.target.reset();
     } catch (error) {
       console.error("Upload failed:", error);
@@ -371,24 +356,6 @@ function AdminDashboard() {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="chapterSelect">
-              Chapter <span className="optional">(optional)</span>
-            </label>
-            <select
-              id="chapterSelect"
-              value={chapterId}
-              onChange={(event) => setChapterId(event.target.value)}
-              disabled={!subjectId || loadingChapters}
-            >
-              <option value="">Select Chapter</option>
-              {chapters.map((chapter) => (
-                <option key={chapter.id} value={String(chapter.id)}>
-                  Unit {chapter.unit_number}: {chapter.name}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <div className="form-group">
             <label htmlFor="documentTitle">Document Title</label>
@@ -402,48 +369,7 @@ function AdminDashboard() {
             />
           </div>
 
-          {!showExamFields && (
-            <div className="form-group">
-              <label htmlFor="academicYearInput">
-                Academic Year <span className="optional">(optional)</span>
-              </label>
-              <input
-                id="academicYearInput"
-                type="text"
-                value={academicYear}
-                onChange={(event) => setAcademicYear(event.target.value)}
-                placeholder="e.g. 2026-27"
-              />
-            </div>
-          )}
 
-          {showExamFields && (
-            <>
-              <div className="form-group">
-                <label htmlFor="examYearInput">Exam Year</label>
-                <input
-                  id="examYearInput"
-                  type="number"
-                  value={examYear}
-                  onChange={(event) => setExamYear(event.target.value)}
-                  placeholder="e.g. 2026"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="examTypeInput">
-                  Exam Type <span className="optional">(optional)</span>
-                </label>
-                <input
-                  id="examTypeInput"
-                  type="text"
-                  value={examType}
-                  onChange={(event) => setExamType(event.target.value)}
-                  placeholder="e.g. Midterm"
-                />
-              </div>
-            </>
-          )}
 
           <div className="form-group">
             <label htmlFor="pdfFileInput">PDF File</label>
@@ -465,54 +391,7 @@ function AdminDashboard() {
         </form>
       </section>
 
-      <section className="admin-card card">
-        <h2>Uploaded Documents</h2>
 
-        {!subjectId && (
-          <div className="empty-state">
-            <p>Select a subject to view uploaded documents.</p>
-          </div>
-        )}
-
-        {subjectId && loadingDocuments && (
-          <p className="loading-text">Loading documents...</p>
-        )}
-
-        {subjectId && !loadingDocuments && documents.length === 0 && (
-          <div className="empty-state">
-            <p>No documents uploaded for this subject yet.</p>
-          </div>
-        )}
-
-        {subjectId && !loadingDocuments && documents.length > 0 && (
-          <div className="document-grid">
-            {documents.map((document) => {
-              const filePath = document.file_path || "";
-              return (
-                <a
-                  key={document.id}
-                  className="document-card"
-                  href={getDocumentUrl(filePath)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <div className="document-icon">PDF</div>
-                  <div className="document-info">
-                    <h3>{document.title}</h3>
-                    <span className="document-type">{document.document_type}</span>
-                    {document.academic_year && (
-                      <span>Academic Year: {document.academic_year}</span>
-                    )}
-                    {document.exam_year && <span>Exam Year: {document.exam_year}</span>}
-                    {document.chapter_id && <span>Linked to Chapter ID: {document.chapter_id}</span>}
-                    <span className="document-open">Open PDF</span>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        )}
-      </section>
     </div>
   );
 }

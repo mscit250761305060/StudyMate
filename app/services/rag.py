@@ -17,6 +17,7 @@ MODEL_NAME = "gemini-3.1-flash-lite"
 def build_rag_prompt(
     question: str,
     retrieved_chunks: list,
+    chat_history: list = None,
 ) -> str:
 
     context_parts = []
@@ -40,6 +41,13 @@ def build_rag_prompt(
 
     context = "\n".join(context_parts)
 
+    history_str = ""
+    if chat_history and len(chat_history) > 0:
+        history_str = "Conversation History:\n"
+        for msg in chat_history:
+            history_str += f"{msg.role.capitalize()}: {msg.content}\n"
+        history_str += "\n"
+
     prompt = f"""
 You are an AI Study Assistant for the
 BSc IT course at SSASIT.
@@ -47,7 +55,7 @@ BSc IT course at SSASIT.
 Answer the student's question using ONLY
 the study material provided below.
 
-Student Question:
+{history_str}Student Question:
 {question}
 
 Study Material:
@@ -130,6 +138,7 @@ def generate_rag_answer(
     subject_id: int | None = None,
     chapter_id: int | None = None,
     document_type: str | None = None,
+    chat_history: list = None,
 ):
 
     retrieved_chunks = search_similar_chunks(
@@ -151,6 +160,7 @@ def generate_rag_answer(
     prompt = build_rag_prompt(
         question=question,
         retrieved_chunks=retrieved_chunks,
+        chat_history=chat_history,
     )
 
     return _generate_with_retries(

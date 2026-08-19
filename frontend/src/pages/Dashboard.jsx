@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 function Dashboard() {
   return (
     <div className="student-dashboard">
-      <div className="dashboard-header">
+      <div className="dashboard-header" style={{ textAlign: "center", marginBottom: "30px" }}>
         <h2>Student Dashboard</h2>
         <p>Your BSc IT academic study workspace</p>
       </div>

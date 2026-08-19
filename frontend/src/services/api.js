@@ -100,7 +100,7 @@ export const getDocumentUrl = (documentIdOrPath) => {
 
   const normalizedPath = String(documentIdOrPath)
     .replaceAll("\\", "/")
-    .replace(/^data\//, "");
+    .replace(/^data\/documents\//, "");
 
   return `${API_BASE_URL}/documents/file/${normalizedPath}`;
 };
@@ -174,6 +174,33 @@ export const uploadDocument = async ({
     },
   });
 
+  return response.data;
+};
+
+// Chat Session Endpoints
+export const getChatSessions = async () => {
+  const response = await api.get("/api/chats");
+  return response.data;
+};
+
+export const createChatSession = async (semester_id, subject_id, title) => {
+  const response = await api.post("/api/chats", {
+    semester_id,
+    subject_id,
+    title,
+  });
+  return response.data;
+};
+
+export const getChatMessages = async (session_id) => {
+  const response = await api.get(`/api/chats/${session_id}/messages`);
+  return response.data;
+};
+
+export const sendChatMessage = async (session_id, content) => {
+  const response = await api.post(`/api/chats/${session_id}/messages`, {
+    content,
+  });
   return response.data;
 };
 

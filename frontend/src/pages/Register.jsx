@@ -9,9 +9,7 @@ function Register() {
   const [password, setPassword] = useState('');
   
   const [courses, setCourses] = useState([]);
-  const [semesters, setSemesters] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
-  const [selectedSemester, setSelectedSemester] = useState('');
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,8 +23,12 @@ function Register() {
       try {
         const colleges = await getColleges();
         if (colleges.length > 0) {
-          const courseList = await getCourses(colleges[0].id);
-          setCourses(courseList);
+          let allCourses = [];
+          for (const college of colleges) {
+            const courseList = await getCourses(college.id);
+            allCourses = [...allCourses, ...courseList];
+          }
+          setCourses(allCourses);
         }
       } catch (err) {
         console.error("Failed to load courses:", err);
@@ -35,16 +37,6 @@ function Register() {
     loadInitialData();
   }, []);
 
-  useEffect(() => {
-    if (selectedCourse) {
-      getSemesters(selectedCourse)
-        .then(setSemesters)
-        .catch(err => console.error("Failed to load semesters:", err));
-    } else {
-      setSemesters([]);
-      setSelectedSemester('');
-    }
-  }, [selectedCourse]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,15 +44,15 @@ function Register() {
       setError('Password must be at least 6 characters long');
       return;
     }
-    if (!selectedCourse || !selectedSemester) {
-      setError('Please select a stream/course and semester');
+    if (!selectedCourse) {
+      setError('Please select a stream/course');
       return;
     }
 
     setLoading(true);
     setError('');
 
-    const result = await register(name, email, password, parseInt(selectedCourse), parseInt(selectedSemester));
+    const result = await register(name, email, password, parseInt(selectedCourse));
     if (result.success) {
       navigate('/');
     } else {
@@ -70,56 +62,60 @@ function Register() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="landing-hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="auth-card" style={{ maxWidth: '450px', background: 'white', color: '#172033', boxShadow: '0 10px 25px rgba(30, 50, 80, 0.08)', border: '1px solid #dfe5ef' }}>
         <div className="auth-header">
-          <h2>Create Account</h2>
-          <p>Join StudyMate to access your course materials</p>
+          <h2 style={{ color: '#172033' }}>Create an Account</h2>
+          <p style={{ color: '#64748b' }}>Join StudyMate and boost your learning</p>
         </div>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="name" style={{ color: '#475569' }}>Full Name</label>
             <input
               type="text"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" style={{ color: '#475569' }}>Email</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" style={{ color: '#475569' }}>Password</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
             />
           </div>
-
+          
           <div className="form-group">
-            <label htmlFor="course">Stream / Course</label>
+            <label htmlFor="course" style={{ color: '#475569' }}>Stream / Course</label>
             <select
               id="course"
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
               required
+              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
             >
               <option value="">Select your course</option>
               {courses.map(course => (
@@ -128,29 +124,13 @@ function Register() {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="semester">Semester</label>
-            <select
-              id="semester"
-              value={selectedSemester}
-              onChange={(e) => setSelectedSemester(e.target.value)}
-              required
-              disabled={!selectedCourse}
-            >
-              <option value="">Select your semester</option>
-              {semesters.map(sem => (
-                <option key={sem.id} value={sem.id}>Semester {sem.number}</option>
-              ))}
-            </select>
-          </div>
-
-          <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Creating account...' : 'Register'}
+          <button type="submit" className="auth-button" disabled={loading} style={{ background: '#2563eb', color: 'white' }}>
+            {loading ? 'Creating Account...' : 'Register'}
           </button>
         </form>
 
         <div className="auth-footer">
-          <p>Already have an account? <Link to="/login">Login here</Link></p>
+          <p style={{ color: '#64748b' }}>Already have an account? <Link to="/login" style={{ color: '#2563eb' }}>Login here</Link></p>
         </div>
       </div>
     </div>

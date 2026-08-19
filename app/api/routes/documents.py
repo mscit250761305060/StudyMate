@@ -525,5 +525,6 @@ def open_document(file_path: str):
     return FileResponse(
         path=requested_file,
         media_type="application/pdf",
-        filename=requested_file.name
+        filename=requested_file.name,
+        content_disposition_type="inline"
     )

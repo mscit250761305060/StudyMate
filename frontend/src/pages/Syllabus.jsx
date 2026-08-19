@@ -1,12 +1,13 @@
 import DocumentSection from "../components/DocumentSection";
 
-function Syllabus({ subjects }) {
+function Syllabus({ semesters }) {
   return (
     <DocumentSection
       title="Syllabus"
       description="View syllabus documents for your subjects."
       documentType="SYLLABUS"
-      subjects={subjects}
+      semesters={semesters}
+      basePath="/syllabus"
     />
   );
 }

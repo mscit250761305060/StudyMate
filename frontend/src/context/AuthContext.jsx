@@ -35,9 +35,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, email, password, course_id, semester_id) => {
+  const register = async (name, email, password, course_id) => {
     try {
-      await apiRegister(name, email, password, course_id, semester_id);
+      await apiRegister(name, email, password, course_id, null);
       // Auto login after register
       return await login(email, password);
     } catch (error) {

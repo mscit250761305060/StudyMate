@@ -80,32 +80,32 @@ def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
 @router.post("/register", response_model=UserResponse)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_in.email).first()
-    if user:
-        raise HTTPException(
-            status_code=400,
-            detail="The user with this email already exists in the system.",
-        )
-    
     hashed_password = get_password_hash(user_in.password)
     
-    # Check if the email belongs to the Admin list
-    admin_emails = os.getenv("ADMIN_EMAILS", "").split(",")
-    admin_emails = [email.strip().lower() for email in admin_emails if email.strip()]
+    if user:
+        # Check if the user is a pre-approved admin waiting to complete registration
+        if user.role == "admin" and not user.hashed_password:
+            user.name = user_in.name
+            user.hashed_password = hashed_password
+            user.course_id = user_in.course_id
+            user.semester_id = user_in.semester_id
+            db.commit()
+            db.refresh(user)
+            return user
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail="The user with this email already exists in the system.",
+            )
     
-    is_admin = user_in.email.strip().lower() in admin_emails
-    
-    role = "admin" if is_admin else "student"
-    # Ignore course/semester if the user is an admin
-    course_id = None if is_admin else user_in.course_id
-    semester_id = None if is_admin else user_in.semester_id
-
+    # If the user doesn't exist in the database, they are registered as a regular student
     db_user = User(
         email=user_in.email,
         name=user_in.name,
         hashed_password=hashed_password,
-        role=role,
-        course_id=course_id,
-        semester_id=semester_id
+        role="student",
+        course_id=user_in.course_id,
+        semester_id=user_in.semester_id
     )
     db.add(db_user)
     db.commit()

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink, useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -9,6 +9,7 @@ import LabPlan from "./pages/LabPlan";
 import PreviousPapers from "./pages/QuestionPapers"; // the file is still named QuestionPapers.jsx but exports PreviousPapers
 import StudyMaterials from "./pages/StudyMaterials";
 import AIAssistant from "./pages/AIAssistant";
+import AIAssistantChat from "./pages/AIAssistantChat";
 import Assignments from "./pages/Assignments";
 import PracticePapers from "./pages/PracticePapers";
 import NotFound from "./pages/NotFound";
@@ -16,7 +17,14 @@ import PdfViewer from "./pages/PdfViewer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
+import Blog from "./pages/Blog";
+import ContactUs from "./pages/ContactUs";
+import FAQ from "./pages/FAQ";
+import LegalPage from "./pages/LegalPage";
+import Footer from "./components/Footer";
 import AdminDashboard from "./pages/AdminDashboard";
+import Profile from "./pages/Profile";
+import AuthNavbar from "./components/AuthNavbar";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import {
   getColleges,
@@ -29,73 +37,38 @@ import {
   askQuestion,
 } from "./services/api";
 
+const PRIVACY_POLICY = [
+  "At StudyMate, we are committed to protecting your privacy. This policy explains how we collect, use, and safeguard your personal information.",
+  "Information Collection: We collect standard information such as your name, email, college, and course details during registration to provide you with tailored study materials.",
+  "Data Usage: Your data is exclusively used to enhance your educational experience, manage your account securely, and provide context to our AI assistant.",
+  "Data Security: We implement industry-standard security measures to protect your data. We never sell your personal information to third parties."
+];
+
+const TERMS_OF_SERVICE = [
+  "Welcome to StudyMate. By accessing or using our platform, you agree to comply with and be bound by these terms.",
+  "User Conduct: You agree to use the platform for academic purposes only. Any abuse, misuse, or attempt to bypass security measures may result in immediate account termination.",
+  "Intellectual Property: All study materials and syllabi provided remain the intellectual property of their respective creators or institutions.",
+  "Disclaimer: The AI Assistant is provided as a study aid. While we strive for high accuracy, users should independently verify critical information before exams."
+];
+
 function InnerApp() {
   const { user, isAdmin, logout } = useAuth();
+  const location = useLocation();
 
   const [colleges, setColleges] = useState([]);
   const [courses, setCourses] = useState([]);
   const [semesters, setSemesters] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [chapters, setChapters] = useState([]);
-  const [documents, setDocuments] = useState([]);
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
-  const [isAsking, setIsAsking] = useState(false);
-  const [askError, setAskError] = useState("");
 
   const [selectedCollege, setSelectedCollege] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [selectedSemester, setSelectedSemester] = useState(null);
-  const [selectedSubject, setSelectedSubject] = useState(null);
-  const [selectedChapter, setSelectedChapter] = useState(null);
 
   const [showAdmin, setShowAdmin] = useState(false);
   const [collegeError, setCollegeError] = useState("");
   const [courseError, setCourseError] = useState("");
   const [semesterError, setSemesterError] = useState("");
-  const [subjectError, setSubjectError] = useState("");
-  const [chapterError, setChapterError] = useState("");
-  const [documentError, setDocumentError] = useState("");
 
   const [loadingCourses, setLoadingCourses] = useState(false);
   const [loadingSemesters, setLoadingSemesters] = useState(false);
-  const [loadingSubjects, setLoadingSubjects] = useState(false);
-  const [loadingChapters, setLoadingChapters] = useState(false);
-  const [loadingDocuments, setLoadingDocuments] = useState(false);
-
-  const handleAskQuestion = async () => {
-    const trimmedQuestion = question.trim();
-
-    if (!trimmedQuestion) {
-      setAskError("Please enter a question.");
-      return;
-    }
-
-    setIsAsking(true);
-    setAskError("");
-    setAnswer("");
-
-    try {
-      const data = await askQuestion({
-        question: trimmedQuestion,
-        limit: 3,
-        semester_id: selectedSemester?.id ?? null,
-        subject_id: selectedSubject?.id ?? null,
-        chapter_id: selectedChapter?.id ?? null,
-        document_type: null,
-      });
-
-      setAnswer(data.answer || "No answer was returned.");
-    } catch (error) {
-      console.error("AI question failed:", error);
-      setAskError(
-        error.response?.data?.detail ||
-          "Unable to get an answer right now. Please try again."
-      );
-    } finally {
-      setIsAsking(false);
-    }
-  };
 
   useEffect(() => {
     const loadColleges = async () => {
@@ -148,7 +121,8 @@ function InnerApp() {
   }, [selectedCollege]);
 
   useEffect(() => {
-    if (!selectedCourse) {
+    const courseIdToUse = user?.course_id || selectedCourse?.id;
+    if (!courseIdToUse) {
       return;
     }
 
@@ -156,7 +130,7 @@ function InnerApp() {
       try {
         setLoadingSemesters(true);
         setSemesterError("");
-        const data = await getSemesters(selectedCourse.id);
+        const data = await getSemesters(courseIdToUse);
         setSemesters(data);
       } catch (error) {
         console.error("Failed to load semesters:", error);
@@ -170,164 +144,109 @@ function InnerApp() {
     };
 
     loadSemesters();
-  }, [selectedCourse]);
-
-  useEffect(() => {
-    // Determine the semester to fetch subjects for.
-    // If user has a semester_id, use that. Otherwise use selectedSemester (if admin selects one).
-    const semesterIdToUse = user?.semester_id || selectedSemester?.id;
-    
-    if (!semesterIdToUse) {
-      return;
-    }
-
-    const loadSubjects = async () => {
-      try {
-        setLoadingSubjects(true);
-        setSubjectError("");
-        const data = await getSubjects(semesterIdToUse);
-        setSubjects(data);
-      } catch (error) {
-        console.error("Failed to load subjects:", error);
-        setSubjects([]);
-        setSubjectError(
-          "Unable to load subjects. Please check your connection and try again."
-        );
-      } finally {
-        setLoadingSubjects(false);
-      }
-    };
-
-    loadSubjects();
-  }, [selectedSemester, user?.semester_id]);
-
-  useEffect(() => {
-    if (!selectedSubject) {
-      return;
-    }
-
-    const loadChapters = async () => {
-      try {
-        setLoadingChapters(true);
-        setChapterError("");
-        const data = await getChapters(selectedSubject.id);
-        setChapters(data);
-      } catch (error) {
-        console.error("Failed to load chapters:", error);
-        setChapters([]);
-        setChapterError(
-          "Unable to load chapters. Please check your connection and try again."
-        );
-      } finally {
-        setLoadingChapters(false);
-      }
-    };
-
-    loadChapters();
-  }, [selectedSubject]);
-
-  useEffect(() => {
-    if (!selectedSubject) {
-      return;
-    }
-
-    const loadDocuments = async () => {
-      try {
-        setLoadingDocuments(true);
-        setDocumentError("");
-        const data = await getDocumentsBySubject(selectedSubject.id);
-        setDocuments(data);
-      } catch (error) {
-        console.error("Failed to load documents:", error);
-        setDocuments([]);
-        setDocumentError(
-          "Unable to load study materials. Please check your connection and try again."
-        );
-      } finally {
-        setLoadingDocuments(false);
-      }
-    };
-
-    loadDocuments();
-  }, [selectedSubject]);
+  }, [selectedCourse, user?.course_id]);
 
   const navLinkClass = ({ isActive }) =>
     isActive ? "main-nav-link active" : "main-nav-link";
 
   return (
-      <div className="app">
-        <header className="app-header">
-          <div className="header-content">
-            <div className="brand-block">
-              <h1>StudyMate</h1>
-              <p>Your BSc IT Academic Assistant</p>
-            </div>
-            
-            <div className="header-actions">
-              {user ? (
-                <>
-                  {isAdmin && (
-                    <button
-                      type="button"
-                      className="admin-toggle-button"
-                      onClick={() => setShowAdmin(!showAdmin)}
-                    >
-                      {showAdmin ? "Back to Dashboard" : "Admin Panel"}
-                    </button>
-                  )}
+    <div className="app">
+      {user ? (
+        <>
+          <header className="app-header">
+            <div className="header-content">
+              <div className="brand-block">
+                <h1>StudyMate</h1>
+                <p>Your BSc IT Academic Assistant</p>
+              </div>
+              
+              <div className="header-actions">
+                {isAdmin && (
                   <button
                     type="button"
                     className="admin-toggle-button"
-                    onClick={logout}
-                    style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)' }}
+                    onClick={() => setShowAdmin(!showAdmin)}
                   >
-                    Logout
+                    {showAdmin ? "Back to Dashboard" : "Admin Panel"}
                   </button>
+                )}
+                <button
+                  type="button"
+                  className="admin-toggle-button"
+                  onClick={logout}
+                  style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)' }}
+                >
+                  Logout
+                </button>
+                <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div className="user-profile-circle" title={user.name}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                   </div>
-                </>
-              ) : (
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <NavLink to="/login" className="admin-toggle-button">Login</NavLink>
-                  <NavLink to="/register" className="admin-toggle-button" style={{ background: '#2563eb', borderColor: '#2563eb' }}>Register</NavLink>
-                </div>
-              )}
+                </Link>
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <main className="container">
-          {isAdmin && showAdmin ? (
-            <AdminDashboard />
-          ) : (
-            <Routes>
-              {user ? (
-                <>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/syllabus" element={<Syllabus subjects={subjects} />} />
-                  <Route path="/study-materials" element={<StudyMaterials subjects={subjects} />} />
-                  <Route path="/assignments" element={<Assignments subjects={subjects} />} />
-                  <Route path="/lab-plan" element={<LabPlan subjects={subjects} />} />
-                  <Route path="/previous-papers" element={<PreviousPapers subjects={subjects} />} />
-                  <Route path="/ai-assistant" element={<AIAssistant />} />
-                  <Route path="/viewer" element={<PdfViewer />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="*" element={<Login />} />
-                </>
-              )}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          )}
-        </main>
-      </div>
+          <main className="container">
+            {isAdmin && showAdmin ? (
+              <AdminDashboard />
+            ) : (
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/syllabus" element={<Syllabus semesters={semesters} />} />
+                <Route path="/syllabus/semester/:semesterId" element={<Syllabus semesters={semesters} />} />
+                <Route path="/syllabus/semester/:semesterId/subject/:subjectId" element={<Syllabus semesters={semesters} />} />
+
+                <Route path="/study-materials" element={<StudyMaterials semesters={semesters} />} />
+                <Route path="/study-materials/semester/:semesterId" element={<StudyMaterials semesters={semesters} />} />
+                <Route path="/study-materials/semester/:semesterId/subject/:subjectId" element={<StudyMaterials semesters={semesters} />} />
+
+                <Route path="/assignments" element={<Assignments semesters={semesters} />} />
+                <Route path="/assignments/semester/:semesterId" element={<Assignments semesters={semesters} />} />
+                <Route path="/assignments/semester/:semesterId/subject/:subjectId" element={<Assignments semesters={semesters} />} />
+
+                <Route path="/lab-plan" element={<LabPlan semesters={semesters} />} />
+                <Route path="/lab-plan/semester/:semesterId" element={<LabPlan semesters={semesters} />} />
+                <Route path="/lab-plan/semester/:semesterId/subject/:subjectId" element={<LabPlan semesters={semesters} />} />
+
+                <Route path="/previous-papers" element={<PreviousPapers semesters={semesters} />} />
+                <Route path="/previous-papers/semester/:semesterId" element={<PreviousPapers semesters={semesters} />} />
+                <Route path="/previous-papers/semester/:semesterId/subject/:subjectId" element={<PreviousPapers semesters={semesters} />} />
+
+                <Route path="/ai-assistant" element={<AIAssistant semesters={semesters} />} />
+                <Route path="/ai-assistant/semester/:semesterId" element={<AIAssistant semesters={semesters} />} />
+                <Route path="/ai-assistant/semester/:semesterId/subject/:subjectId" element={<AIAssistantChat />} />
+                <Route path="/ai-assistant/chat/:sessionId" element={<AIAssistantChat />} />
+                
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/privacy" element={<LegalPage title="Privacy Policy" lastUpdated="August 10, 2026" content={PRIVACY_POLICY} />} />
+                <Route path="/terms" element={<LegalPage title="Terms of Service" lastUpdated="August 10, 2026" content={TERMS_OF_SERVICE} />} />
+
+                <Route path="/viewer" element={<PdfViewer />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            )}
+          </main>
+          {user && (!isAdmin || !showAdmin) && location.pathname === "/" && <Footer />}
+        </>
+      ) : (
+        <div className="unauth-layout">
+          <AuthNavbar />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Login />} />
+          </Routes>
+        </div>
+      )}
+    </div>
   );
 }
 

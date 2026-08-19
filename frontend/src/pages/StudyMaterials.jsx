@@ -1,12 +1,13 @@
 import DocumentSection from "../components/DocumentSection";
 
-function StudyMaterials({ subjects }) {
+function StudyMaterials({ semesters }) {
   return (
     <DocumentSection
       title="Study Materials"
       description="Access notes and study documents for your subjects."
       documentType="STUDY_MATERIAL"
-      subjects={subjects}
+      semesters={semesters}
+      basePath="/study-materials"
     />
   );
 }

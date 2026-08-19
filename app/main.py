@@ -13,12 +13,15 @@ from app.models.database_models import (
     Document,
     DocumentContent,
     DocumentChunk,
+    ChatSession,
+    ChatMessage,
 )
 from app.models.user import User
 
 from app.api.routes.academic import router as academic_router
 from app.api.routes.documents import router as documents_router
 from app.api.routes.ask import router as ask_router
+from app.api.routes.chat import router as chat_router
 from app.api.auth import router as auth_router
 
 # Create database tables
@@ -47,6 +50,7 @@ app.add_middleware(
 app.include_router(academic_router)
 app.include_router(documents_router)
 app.include_router(ask_router)
+app.include_router(chat_router)
 app.include_router(auth_router, prefix="/api/v1")
 
 

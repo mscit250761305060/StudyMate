@@ -25,45 +25,47 @@ function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="landing-hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="auth-card" style={{ background: 'white', color: '#172033', boxShadow: '0 10px 25px rgba(30, 50, 80, 0.08)', border: '1px solid #dfe5ef' }}>
         <div className="auth-header">
-          <h2>Welcome Back</h2>
-          <p>Login to your StudyMate account</p>
+          <h2 style={{ color: '#172033' }}>Welcome Back</h2>
+          <p style={{ color: '#64748b' }}>Login to your StudyMate account</p>
         </div>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" style={{ color: '#475569' }}>Email</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" style={{ color: '#475569' }}>Password</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
             />
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button type="submit" className="auth-button" disabled={loading} style={{ background: '#2563eb', color: 'white' }}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
         <div className="auth-footer">
-          <p>Don't have an account? <Link to="/register">Register here</Link></p>
+          <p style={{ color: '#64748b' }}>Don't have an account? <Link to="/register" style={{ color: '#2563eb' }}>Register here</Link></p>
         </div>
       </div>
     </div>

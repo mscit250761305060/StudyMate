@@ -20,22 +20,9 @@ function PdfViewer() {
   }
 
   return (
-    <div className="page-container" style={{ display: 'flex', flexDirection: 'column', height: '85vh' }}>
-      <Breadcrumb items={[{ label: title || "Document Viewer" }]} />
-      <div className="pdf-viewer-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <button className="back-button" onClick={() => navigate(-1)} style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>
-          ← Back
-        </button>
-        <h2 style={{ margin: 0, fontSize: '1.2rem' }}>{title || "Document Viewer"}</h2>
-        <a 
-          href={fileUrl} 
-          download 
-          target="_blank" 
-          rel="noreferrer"
-          style={{ padding: '0.5rem 1rem', backgroundColor: '#007bff', color: '#fff', textDecoration: 'none', borderRadius: '4px' }}
-        >
-          Download PDF
-        </a>
+    <div className="page-container" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 110px)', paddingBottom: 0, marginTop: '-15px', marginBottom: '-40px', overflow: 'hidden' }}>
+      <div style={{ marginBottom: 0 }}>
+        <Breadcrumb items={[{ label: title || "Document Viewer" }]} />
       </div>
       
       <div className="pdf-viewer-content" style={{ flexGrow: 1, border: '1px solid #ccc', borderRadius: '4px', overflow: 'hidden' }}>
