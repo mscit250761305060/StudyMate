@@ -15,7 +15,6 @@ function Profile() {
     <div className="profile-page">
       <Breadcrumb
         items={[
-          { label: "Dashboard", path: "/" },
           { label: "My Profile" },
         ]}
       />

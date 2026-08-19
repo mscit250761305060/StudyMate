@@ -542,8 +542,9 @@ button {
 /* ROUTED PAGE STRUCTURE */
 
 .app-header {
-  background: #172033;
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .header-content {
@@ -1442,7 +1443,7 @@ textarea {
   max-width: 1600px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 40px;
   padding-bottom: 40px;
 }
