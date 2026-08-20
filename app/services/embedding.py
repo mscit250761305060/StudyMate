@@ -3,8 +3,16 @@ from sentence_transformers import SentenceTransformer
 
 MODEL_NAME = "all-MiniLM-L6-v2"
 
+_model = None
 
-model = SentenceTransformer(MODEL_NAME)
+
+def get_model():
+    global _model
+
+    if _model is None:
+        _model = SentenceTransformer(MODEL_NAME)
+
+    return _model
 
 
 def generate_embedding(text: str) -> list[float]:
@@ -15,6 +23,8 @@ def generate_embedding(text: str) -> list[float]:
 
     if not text or not text.strip():
         raise ValueError("Text cannot be empty")
+
+    model = get_model()
 
     embedding = model.encode(
         text,
