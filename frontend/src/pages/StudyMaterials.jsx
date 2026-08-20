@@ -1,6 +1,6 @@
 import DocumentSection from "../components/DocumentSection";
 
-function StudySphererials({ semesters }) {
+function StudyMaterials({ semesters }) {
   return (
     <DocumentSection
       title="Study Materials"
@@ -12,4 +12,4 @@ function StudySphererials({ semesters }) {
   );
 }
 
-export default StudySphererials;
+export default StudyMaterials;

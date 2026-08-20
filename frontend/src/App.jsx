@@ -7,7 +7,7 @@ import Subjects from "./pages/Subjects";
 import Syllabus from "./pages/Syllabus";
 import LabPlan from "./pages/LabPlan";
 import PreviousPapers from "./pages/QuestionPapers"; // the file is still named QuestionPapers.jsx but exports PreviousPapers
-import StudySphererials from "./pages/StudySphererials";
+import StudyMaterials from "./pages/StudyMaterials";
 import AIAssistant from "./pages/AIAssistant";
 import AIAssistantChat from "./pages/AIAssistantChat";
 import Assignments from "./pages/Assignments";
@@ -201,9 +201,9 @@ function InnerApp() {
                 <Route path="/syllabus/semester/:semesterId" element={<Syllabus semesters={semesters} />} />
                 <Route path="/syllabus/semester/:semesterId/subject/:subjectId" element={<Syllabus semesters={semesters} />} />
 
-                <Route path="/study-materials" element={<StudySphererials semesters={semesters} />} />
-                <Route path="/study-materials/semester/:semesterId" element={<StudySphererials semesters={semesters} />} />
-                <Route path="/study-materials/semester/:semesterId/subject/:subjectId" element={<StudySphererials semesters={semesters} />} />
+                <Route path="/study-materials" element={<StudyMaterials semesters={semesters} />} />
+                <Route path="/study-materials/semester/:semesterId" element={<StudyMaterials semesters={semesters} />} />
+                <Route path="/study-materials/semester/:semesterId/subject/:subjectId" element={<StudyMaterials semesters={semesters} />} />
 
                 <Route path="/assignments" element={<Assignments semesters={semesters} />} />
                 <Route path="/assignments/semester/:semesterId" element={<Assignments semesters={semesters} />} />
