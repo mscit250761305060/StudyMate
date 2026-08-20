@@ -37,7 +37,7 @@ function Blog() {
       <Breadcrumb items={[{ label: "Blog" }]} />
       
       <div className="page-header" style={{ marginBottom: "40px" }}>
-        <h2>StudyMate Blog</h2>
+        <h2>StudySphere Blog</h2>
         <p>Insights, tips, and updates for BSc IT students.</p>
       </div>
 

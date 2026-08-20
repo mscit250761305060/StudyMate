@@ -45,7 +45,7 @@ def seed_academic_data_from_csv():
     db: Session = SessionLocal()
     try:
         # 1. Create or get College
-        college_name = "StudyMate Institute of Technology"
+        college_name = "StudySphere Institute of Technology"
         college = db.query(College).filter(College.name == college_name).first()
         if not college:
             print(f"Creating College: {college_name}")

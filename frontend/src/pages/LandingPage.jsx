@@ -16,7 +16,7 @@ function LandingPage() {
         
         <div className="landing-prompt-box">
           <div className="prompt-header">
-            <span>StudyMate AI Assistant</span>
+            <span>StudySphere AI Assistant</span>
             <span className="badge">NEW</span>
           </div>
           <div className="prompt-body">

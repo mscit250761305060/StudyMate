@@ -4,16 +4,16 @@ import Breadcrumb from "../components/Breadcrumb";
 function FAQ() {
   const faqs = [
     {
-      question: "What is StudyMate?",
-      answer: "StudyMate is an all-in-one academic assistant designed specifically for BSc IT students. It provides access to syllabus details, study materials, lab plans, previous question papers, and an AI-powered assistant."
+      question: "What is StudySphere?",
+      answer: "StudySphere is an all-in-one academic assistant designed specifically for BSc IT students. It provides access to syllabus details, study materials, lab plans, previous question papers, and an AI-powered assistant."
     },
     {
       question: "How does the AI Assistant work?",
       answer: "Our AI Assistant uses advanced Retrieval-Augmented Generation (RAG) technology. It searches through our extensive database of verified college materials and syllabus documents to give you precise, context-aware answers to your study questions."
     },
     {
-      question: "Do I need to pay to use StudyMate?",
-      answer: "No, StudyMate is completely free for all registered BSc IT students."
+      question: "Do I need to pay to use StudySphere?",
+      answer: "No, StudySphere is completely free for all registered BSc IT students."
     },
     {
       question: "Can I download the study materials?",
@@ -27,7 +27,7 @@ function FAQ() {
       
       <div className="page-header" style={{ marginBottom: "40px" }}>
         <h2>Frequently Asked Questions</h2>
-        <p>Find answers to common questions about using StudyMate.</p>
+        <p>Find answers to common questions about using StudySphere.</p>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "800px" }}>

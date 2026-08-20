@@ -1,8 +1,8 @@
-# StudyMate 🎓
+# StudySphere 🎓
 
 > **Your All-in-One BSc IT Academic Assistant**
 
-StudyMate is a comprehensive web portal designed specifically for BSc IT students to streamline their academic journey. From accessing interactive syllabi to chatting with an AI assistant for study help, StudyMate acts as a centralized hub for all your educational needs.
+StudySphere is a comprehensive web portal designed specifically for BSc IT students to streamline their academic journey. From accessing interactive syllabi to chatting with an AI assistant for study help, StudySphere acts as a centralized hub for all your educational needs.
 
 ## ✨ Features
 
@@ -23,7 +23,7 @@ StudyMate is a comprehensive web portal designed specifically for BSc IT student
 
 ## 🛠️ Getting Started
 
-Follow these steps to run StudyMate locally on your machine.
+Follow these steps to run StudySphere locally on your machine.
 
 ### Prerequisites
 
@@ -34,8 +34,8 @@ Follow these steps to run StudyMate locally on your machine.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/mscit250761305060/StudyMate.git
-cd StudyMate
+git clone https://github.com/mscit250761305060/StudySphere.git
+cd StudySphere
 ```
 
 ### 2. Backend Setup

@@ -44,7 +44,7 @@ function ContactUs() {
             </div>
             <div>
               <strong>Email</strong>
-              <span>support@studymate.edu</span>
+              <span>support@studysphere.edu</span>
             </div>
           </div>
           

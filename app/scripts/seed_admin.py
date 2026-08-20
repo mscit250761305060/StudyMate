@@ -12,7 +12,7 @@ from app.core.security import get_password_hash
 def seed_admin():
     db: Session = SessionLocal()
     try:
-        email = "admin@studymate.com"
+        email = "admin@studysphere.com"
         admin = db.query(User).filter(User.email == email).first()
         if not admin:
             print(f"Creating admin user {email}...")

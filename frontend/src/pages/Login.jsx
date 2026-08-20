@@ -29,7 +29,7 @@ function Login() {
       <div className="auth-card" style={{ background: 'white', color: '#172033', boxShadow: '0 10px 25px rgba(30, 50, 80, 0.08)', border: '1px solid #dfe5ef' }}>
         <div className="auth-header">
           <h2 style={{ color: '#172033' }}>Welcome Back</h2>
-          <p style={{ color: '#64748b' }}>Login to your StudyMate account</p>
+          <p style={{ color: '#64748b' }}>Login to your StudySphere account</p>
         </div>
 
         {error && <div className="error-message">{error}</div>}

@@ -7,7 +7,7 @@ import Subjects from "./pages/Subjects";
 import Syllabus from "./pages/Syllabus";
 import LabPlan from "./pages/LabPlan";
 import PreviousPapers from "./pages/QuestionPapers"; // the file is still named QuestionPapers.jsx but exports PreviousPapers
-import StudyMaterials from "./pages/StudyMaterials";
+import StudySphererials from "./pages/StudySphererials";
 import AIAssistant from "./pages/AIAssistant";
 import AIAssistantChat from "./pages/AIAssistantChat";
 import Assignments from "./pages/Assignments";
@@ -38,14 +38,14 @@ import {
 } from "./services/api";
 
 const PRIVACY_POLICY = [
-  "At StudyMate, we are committed to protecting your privacy. This policy explains how we collect, use, and safeguard your personal information.",
+  "At StudySphere, we are committed to protecting your privacy. This policy explains how we collect, use, and safeguard your personal information.",
   "Information Collection: We collect standard information such as your name, email, college, and course details during registration to provide you with tailored study materials.",
   "Data Usage: Your data is exclusively used to enhance your educational experience, manage your account securely, and provide context to our AI assistant.",
   "Data Security: We implement industry-standard security measures to protect your data. We never sell your personal information to third parties."
 ];
 
 const TERMS_OF_SERVICE = [
-  "Welcome to StudyMate. By accessing or using our platform, you agree to comply with and be bound by these terms.",
+  "Welcome to StudySphere. By accessing or using our platform, you agree to comply with and be bound by these terms.",
   "User Conduct: You agree to use the platform for academic purposes only. Any abuse, misuse, or attempt to bypass security measures may result in immediate account termination.",
   "Intellectual Property: All study materials and syllabi provided remain the intellectual property of their respective creators or institutions.",
   "Disclaimer: The AI Assistant is provided as a study aid. While we strive for high accuracy, users should independently verify critical information before exams."
@@ -156,7 +156,7 @@ function InnerApp() {
           <header className="app-header">
             <div className="header-content">
               <div className="brand-block">
-                <h1>StudyMate</h1>
+                <h1>StudySphere</h1>
                 <p>Your BSc IT Academic Assistant</p>
               </div>
               
@@ -201,9 +201,9 @@ function InnerApp() {
                 <Route path="/syllabus/semester/:semesterId" element={<Syllabus semesters={semesters} />} />
                 <Route path="/syllabus/semester/:semesterId/subject/:subjectId" element={<Syllabus semesters={semesters} />} />
 
-                <Route path="/study-materials" element={<StudyMaterials semesters={semesters} />} />
-                <Route path="/study-materials/semester/:semesterId" element={<StudyMaterials semesters={semesters} />} />
-                <Route path="/study-materials/semester/:semesterId/subject/:subjectId" element={<StudyMaterials semesters={semesters} />} />
+                <Route path="/study-materials" element={<StudySphererials semesters={semesters} />} />
+                <Route path="/study-materials/semester/:semesterId" element={<StudySphererials semesters={semesters} />} />
+                <Route path="/study-materials/semester/:semesterId/subject/:subjectId" element={<StudySphererials semesters={semesters} />} />
 
                 <Route path="/assignments" element={<Assignments semesters={semesters} />} />
                 <Route path="/assignments/semester/:semesterId" element={<Assignments semesters={semesters} />} />

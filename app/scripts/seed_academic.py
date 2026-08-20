@@ -10,7 +10,7 @@ from app.models.database_models import College, Course, Semester, Subject
 
 # This is sample data. You can modify this dictionary to match your exact college curriculum!
 ACADEMIC_DATA = {
-    "college_name": "StudyMate Institute of Technology",
+    "college_name": "StudySphere Institute of Technology",
     "courses": [
         {
             "name": "BSc IT",

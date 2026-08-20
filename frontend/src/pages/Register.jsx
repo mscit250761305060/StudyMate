@@ -66,7 +66,7 @@ function Register() {
       <div className="auth-card" style={{ maxWidth: '450px', background: 'white', color: '#172033', boxShadow: '0 10px 25px rgba(30, 50, 80, 0.08)', border: '1px solid #dfe5ef' }}>
         <div className="auth-header">
           <h2 style={{ color: '#172033' }}>Create an Account</h2>
-          <p style={{ color: '#64748b' }}>Join StudyMate and boost your learning</p>
+          <p style={{ color: '#64748b' }}>Join StudySphere and boost your learning</p>
         </div>
 
         {error && <div className="error-message">{error}</div>}
