@@ -41,8 +41,7 @@ def create_collection():
         for collection in collections.collections
     ]
 
-    if COLLECTION_NAME not in existing_names:
-
+    if not client.collection_exists(collection_name=COLLECTION_NAME):
         client.create_collection(
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(
@@ -50,6 +49,14 @@ def create_collection():
                 distance=Distance.COSINE,
             ),
         )
+        
+        # Create indices for fields used in filtering to comply with Qdrant strict mode
+        for field in ["semester_id", "subject_id", "chapter_id", "document_type"]:
+            client.create_payload_index(
+                collection_name=COLLECTION_NAME,
+                field_name=field,
+                field_schema="integer" if "id" in field else "keyword"
+            )
 
         print(
             f"Collection '{COLLECTION_NAME}' created successfully!"
