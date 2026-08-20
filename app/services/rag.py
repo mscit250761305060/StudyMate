@@ -107,8 +107,12 @@ def _generate_with_retries(
 
             status_code = getattr(
                 exc,
-                "status_code",
-                None
+                "code",
+                getattr(
+                    exc,
+                    "status_code",
+                    None
+                )
             )
 
             if status_code in {
