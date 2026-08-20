@@ -27,7 +27,9 @@ function Profile() {
           <div className="profile-title-block">
             <h1>{user?.name || 'User'}</h1>
             <p className="profile-email">{user?.email}</p>
-            <div className="profile-badge">Student</div>
+            <div className="profile-badge">
+              {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Student'}
+            </div>
           </div>
         </div>
 
