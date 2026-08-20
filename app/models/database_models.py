@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import ForeignKey, Integer, String, Text, DateTime
+from sqlalchemy import ForeignKey, Integer, String, Text, DateTime, LargeBinary
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
@@ -334,4 +334,23 @@ class ChatMessage(Base):
 
     session: Mapped["ChatSession"] = relationship(
         back_populates="messages"
+    )
+class DocumentFile(Base):
+    __tablename__ = "document_files"
+
+    id: Mapped[int] = mapped_column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    document_id: Mapped[int] = mapped_column(
+        ForeignKey("documents.id"),
+        nullable=False,
+        unique=True
+    )
+
+    file_data: Mapped[bytes] = mapped_column(
+        LargeBinary,
+        nullable=False
     )

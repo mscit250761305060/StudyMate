@@ -3,22 +3,21 @@ from pathlib import Path
 from pypdf import PdfReader
 
 
-def extract_text_from_pdf(file_path: str) -> str:
+def extract_text_from_pdf(file_input) -> str:
     """
     Extract text from a PDF file.
 
     Returns:
         Extracted text as a single string.
     """
-
-    path = Path(file_path)
-
-    if not path.exists():
-        raise FileNotFoundError(
-            f"PDF file not found: {file_path}"
-        )
-
-    reader = PdfReader(str(path))
+    import io
+    if isinstance(file_input, str):
+        path = Path(file_input)
+        if not path.exists():
+            raise FileNotFoundError(f"PDF file not found: {file_input}")
+        reader = PdfReader(str(path))
+    else:
+        reader = PdfReader(file_input)
 
     pages_text = []
 

@@ -205,6 +205,14 @@ async def upload_document(
     db.commit()
     db.refresh(document)
 
+    from app.models.database_models import DocumentFile
+    document_file = DocumentFile(
+        document_id=document.id,
+        file_data=content
+    )
+    db.add(document_file)
+    db.commit()
+
     # --------------------------------------------------
     # Extract Text, Chunk, and Embed
     # --------------------------------------------------
@@ -318,9 +326,15 @@ def extract_document_text(
     # --------------------------------------------------
 
     try:
-        extracted_text = extract_text_from_pdf(
-            document.file_path
-        )
+        from app.models.database_models import DocumentFile
+        import io
+        doc_file = db.query(DocumentFile).filter(DocumentFile.document_id == document.id).first()
+        if doc_file:
+            extracted_text = extract_text_from_pdf(io.BytesIO(doc_file.file_data))
+        else:
+            extracted_text = extract_text_from_pdf(
+                document.file_path
+            )
 
     except FileNotFoundError:
         raise HTTPException(
@@ -502,29 +516,49 @@ def get_documents_by_subject(subject_id: int, document_type: Optional[str] = Non
         db.close()
 
 @router.get("/file/{file_path:path}")
-def open_document(file_path: str):
+def open_document(file_path: str, db: Session = Depends(get_db)):
+    from app.models.database_models import Document, DocumentFile
+    import io
+    from fastapi.responses import StreamingResponse
 
-    base_dir = Path("data/documents").resolve()
+    # Attempt to match exact path or normalized path (Windows vs Linux slashes)
+    normalized_path = file_path.replace("/", "\\")
+    
+    document = db.query(Document).filter(
+        (Document.file_path == file_path) |
+        (Document.file_path == normalized_path)
+    ).first()
 
-    requested_file = (
-        base_dir / file_path
-    ).resolve()
-
-    if not requested_file.is_file():
+    if not document:
         raise HTTPException(
             status_code=404,
-            detail="Document file not found"
+            detail="Document record not found"
         )
 
-    if base_dir not in requested_file.parents:
-        raise HTTPException(
-            status_code=403,
-            detail="Invalid document path"
+    doc_file = db.query(DocumentFile).filter(DocumentFile.document_id == document.id).first()
+    
+    if not doc_file:
+        # Fallback to local disk if not in DB
+        base_dir = Path("data/documents").resolve()
+        requested_file = (base_dir / file_path).resolve()
+        
+        if not requested_file.is_file():
+            raise HTTPException(
+                status_code=404,
+                detail="Document file not found in DB or on disk"
+            )
+            
+        return FileResponse(
+            path=requested_file,
+            media_type="application/pdf",
+            filename=requested_file.name,
+            content_disposition_type="inline"
         )
 
-    return FileResponse(
-        path=requested_file,
+    return StreamingResponse(
+        io.BytesIO(doc_file.file_data),
         media_type="application/pdf",
-        filename=requested_file.name,
-        content_disposition_type="inline"
+        headers={
+            "Content-Disposition": f'inline; filename="{Path(file_path).name}"'
+        }
     )
