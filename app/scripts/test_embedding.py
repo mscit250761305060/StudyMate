@@ -1,15 +1,35 @@
-from app.services.embedding import generate_embedding
+from google import genai
+
+from app.core.config import settings
 
 
-text = """
-Inheritance in Java allows one class to acquire
-the properties and methods of another class.
-"""
+MODEL_NAME = "gemini-embedding-001"
+
+client = genai.Client(
+    api_key=settings.GEMINI_API_KEY
+)
 
 
-embedding = generate_embedding(text)
+def generate_embedding(text: str) -> list[float]:
+    """
+    Generate a 768-dimensional embedding
+    using Gemini Embedding API.
+    """
 
+    if not text or not text.strip():
+        raise ValueError("Text cannot be empty")
 
-print("Embedding generated successfully!")
-print("Vector dimensions:", len(embedding))
-print("First 5 values:", embedding[:5])
+    response = client.models.embed_content(
+        model=MODEL_NAME,
+        contents=text,
+        config={
+            "output_dimensionality": 768,
+        },
+    )
+
+    if not response.embeddings:
+        raise RuntimeError(
+            "Gemini returned an empty embedding."
+        )
+
+    return response.embeddings[0].values

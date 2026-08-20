@@ -12,7 +12,7 @@ load_dotenv()
 QDRANT_URL = os.getenv("QDRANT_URL")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 
-COLLECTION_NAME = "bsc_it_documents"
+COLLECTION_NAME = "bsc_it_documents_v2"
 
 
 if not QDRANT_URL:
@@ -46,7 +46,7 @@ def create_collection():
         client.create_collection(
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(
-                size=384,
+                size=768,
                 distance=Distance.COSINE,
             ),
         )

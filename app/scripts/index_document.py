@@ -5,7 +5,7 @@ from app.core.vector_db import create_collection
 from app.services.vector_store import store_chunks_in_qdrant
 
 
-DOCUMENT_ID = 1
+DOCUMENT_ID = 2
 
 
 def main():
