@@ -156,8 +156,9 @@ function InnerApp() {
         <>
           <header className="app-header">
             <div className="header-content">
-              <div className="brand-block">
+              <div className="brand-block" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                 <img src={logoImage} alt="StudySphere Logo" className="header-logo" />
+                <h1 style={{ margin: 0, fontSize: '28px' }}>StudySphere</h1>
               </div>
 
               <div className="header-actions">
