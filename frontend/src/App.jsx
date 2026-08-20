@@ -26,7 +26,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import AuthNavbar from "./components/AuthNavbar";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import logoImage from "./assets/logo.png";
+import logoImage from "./assets/hero.png";
 import {
   getColleges,
   getCourses,
@@ -159,7 +159,7 @@ function InnerApp() {
               <div className="brand-block">
                 <img src={logoImage} alt="StudySphere Logo" className="header-logo" />
               </div>
-              
+
               <div className="header-actions">
                 {isAdmin && (
                   <button
@@ -221,7 +221,7 @@ function InnerApp() {
                 <Route path="/ai-assistant/semester/:semesterId" element={<AIAssistant semesters={semesters} />} />
                 <Route path="/ai-assistant/semester/:semesterId/subject/:subjectId" element={<AIAssistantChat />} />
                 <Route path="/ai-assistant/chat/:sessionId" element={<AIAssistantChat />} />
-                
+
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/faq" element={<FAQ />} />
