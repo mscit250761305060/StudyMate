@@ -18,6 +18,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import Blog from "./pages/Blog";
+import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import FAQ from "./pages/FAQ";
 import LegalPage from "./pages/LegalPage";
@@ -224,6 +225,7 @@ function InnerApp() {
                 <Route path="/ai-assistant/chat/:sessionId" element={<AIAssistantChat />} />
 
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/privacy" element={<LegalPage title="Privacy Policy" lastUpdated="August 10, 2026" content={PRIVACY_POLICY} />} />
