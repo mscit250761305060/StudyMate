@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://studymate-36ca.onrender.com";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -24,7 +24,7 @@ export const login = async (email, password) => {
   const formData = new URLSearchParams();
   formData.append("username", email);
   formData.append("password", password);
-  
+
   const response = await api.post("/api/v1/auth/login", formData, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
@@ -86,7 +86,7 @@ export const getChapters = async (subjectId) => {
 export const getChaptersBySubject = getChapters;
 
 export const getDocumentsBySubject = async (subjectId, documentType = null) => {
-  const url = documentType 
+  const url = documentType
     ? `/documents/subject/${subjectId}?document_type=${documentType}`
     : `/documents/subject/${subjectId}`;
   const response = await api.get(url);
