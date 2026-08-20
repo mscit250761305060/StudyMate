@@ -26,7 +26,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import AuthNavbar from "./components/AuthNavbar";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import logoImage from "./assets/hero.png";
+import logoImage from "./assets/logo.png";
 import {
   getColleges,
   getCourses,
