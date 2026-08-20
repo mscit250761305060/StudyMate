@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logoImage from "../assets/logo.png";
 
 function Footer() {
   return (
@@ -6,8 +7,7 @@ function Footer() {
       <div className="footer-content minimalist">
         {/* Brand Column */}
         <div className="footer-brand-col minimalist-brand">
-          <h2>STUDYSPHERE</h2>
-          <p>YOUR BSC IT ACADEMIC ASSISTANT</p>
+          <img src={logoImage} alt="StudySphere Logo" style={{ height: '50px', objectFit: 'contain', marginBottom: '10px' }} />
         </div>
         
         {/* Links Column 1 */}

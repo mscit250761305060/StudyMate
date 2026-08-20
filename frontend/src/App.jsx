@@ -26,6 +26,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import AuthNavbar from "./components/AuthNavbar";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import logoImage from "./assets/logo.png";
 import {
   getColleges,
   getCourses,
@@ -156,8 +157,7 @@ function InnerApp() {
           <header className="app-header">
             <div className="header-content">
               <div className="brand-block">
-                <h1>StudySphere</h1>
-                <p>Your BSc IT Academic Assistant</p>
+                <img src={logoImage} alt="StudySphere Logo" className="header-logo" />
               </div>
               
               <div className="header-actions">

@@ -2254,3 +2254,5 @@ textarea {
     font-size: 16px !important; /* Prevents iOS zoom on focus */
   }
 }
+
+.header-logo { height: 60px; object-fit: contain; }
