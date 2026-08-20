@@ -7,7 +7,7 @@ function AssignmentAssistant() {
     <section className="assignment-assistant">
       <h2>Assignment Assistant</h2>
       <p>
-        Upload an assignment PDF to get syllabus-based assistance.
+        Upload an assignment PDF to get material-based assistance.
       </p>
 
       <input
