@@ -521,12 +521,16 @@ def open_document(file_path: str, db: Session = Depends(get_db)):
     import io
     from fastapi.responses import StreamingResponse
 
-    # Attempt to match exact path or normalized path (Windows vs Linux slashes)
-    normalized_path = file_path.replace("/", "\\")
+    # The frontend strips 'data/documents/' from the path, so we might need to add it back
+    possible_paths = [
+        file_path,
+        file_path.replace("/", "\\"),
+        f"data/documents/{file_path}",
+        f"data\\documents\\{file_path.replace('/', '\\')}"
+    ]
     
     document = db.query(Document).filter(
-        (Document.file_path == file_path) |
-        (Document.file_path == normalized_path)
+        Document.file_path.in_(possible_paths)
     ).first()
 
     if not document:
