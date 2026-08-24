@@ -521,12 +521,12 @@ def open_document(file_path: str, db: Session = Depends(get_db)):
     import io
     from fastapi.responses import StreamingResponse
 
-    # The frontend strips 'data/documents/' from the path, so we might need to add it back
+    win_file_path = file_path.replace("/", "\\")
     possible_paths = [
         file_path,
-        file_path.replace("/", "\\"),
+        win_file_path,
         f"data/documents/{file_path}",
-        f"data\\documents\\{file_path.replace('/', '\\')}"
+        f"data\\documents\\{win_file_path}"
     ]
     
     document = db.query(Document).filter(
