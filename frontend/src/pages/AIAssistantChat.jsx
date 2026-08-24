@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import ReactMarkdown from 'react-markdown';
 import { 
   getChatSessions, 
   createChatSession, 
@@ -243,10 +244,13 @@ function AIAssistantChat() {
                   borderRadius: "8px", 
                   background: msg.role === "user" ? "#007bff" : "#f1f3f5",
                   color: msg.role === "user" ? "white" : "#212529",
-                  whiteSpace: "pre-wrap",
                   lineHeight: "1.5"
                 }}>
-                  {msg.content}
+                  {msg.role === "user" ? (
+                    <div style={{ whiteSpace: "pre-wrap" }}>{msg.content}</div>
+                  ) : (
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  )}
                 </div>
               </div>
             ))}
