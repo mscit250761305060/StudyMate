@@ -129,8 +129,8 @@ function AIAssistantChat() {
       <div style={{ display: "flex", flex: 1, gap: "20px", marginTop: "10px", minHeight: 0 }}>
         
         {/* Sidebar */}
-        <div style={{ width: "250px", background: "#f8f9fa", borderRadius: "8px", border: "1px solid #e9ecef", display: "flex", flexDirection: "column", overflow: "hidden", flexShrink: 0 }}>
-          <div style={{ padding: "15px", borderBottom: "1px solid #e9ecef" }}>
+        <div className="chat-sidebar" style={{ width: "250px", background: "#f8f9fa", borderRadius: "8px", border: "1px solid #e9ecef", display: "flex", flexDirection: "column", overflow: "hidden", flexShrink: 0 }}>
+          <div style={{ padding: "15px", borderBottom: "1px solid #e9ecef" }} className="chat-sidebar-header">
             <button 
               onClick={handleNewChat}
               style={{ width: "100%", padding: "10px", background: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", fontWeight: "bold" }}
@@ -140,11 +140,11 @@ function AIAssistantChat() {
           </div>
           <div style={{ flex: 1, overflowY: "auto" }}>
             {sessions.map(session => {
-              // We check if it's the active session based on URL or replaced state (but state might not trigger render for replaceState, so we compare current URL or just string match)
               const isActive = (sessionId && parseInt(sessionId) === session.id) || window.location.pathname.includes(`/chat/${session.id}`);
               return (
                 <div 
                   key={session.id}
+                  className={`chat-session-item ${isActive ? "active" : ""}`}
                   onClick={() => handleSelectSession(session.id)}
                   style={{ 
                     padding: "12px 15px", 
@@ -162,7 +162,7 @@ function AIAssistantChat() {
               );
             })}
             {sessions.length === 0 && (
-              <div style={{ padding: "15px", color: "#6c757d", textAlign: "center", fontSize: "0.9rem" }}>
+              <div className="chat-sidebar-empty" style={{ padding: "15px", color: "#6c757d", textAlign: "center", fontSize: "0.9rem" }}>
                 No chat history found.
               </div>
             )}
@@ -170,14 +170,14 @@ function AIAssistantChat() {
         </div>
 
         {/* Main Chat Area */}
-        <div style={{ flex: 1, background: "white", borderRadius: "8px", border: "1px solid #e9ecef", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div className="chat-main-area" style={{ flex: 1, background: "white", borderRadius: "8px", border: "1px solid #e9ecef", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           
           {/* Messages Area */}
           <div style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
             
             {messages.length === 0 && (
-              <div style={{ maxWidth: "600px", margin: "40px auto", textAlign: "center", color: "#6c757d" }}>
-                <h2 style={{ color: "#343a40", marginBottom: "15px" }}>Ready to help!</h2>
+              <div className="chat-empty-state" style={{ maxWidth: "600px", margin: "40px auto", textAlign: "center", color: "#6c757d" }}>
+                <h2 className="chat-empty-title" style={{ color: "#343a40", marginBottom: "15px" }}>Ready to help!</h2>
                 <p>
                   You've selected a specific subject context. Type your question below, and I will search through the syllabus, materials, assignments, and lab plans to find the answer.
                 </p>
@@ -191,7 +191,7 @@ function AIAssistantChat() {
                 flexDirection: "column",
                 alignItems: msg.role === "user" ? "flex-end" : "flex-start" 
               }}>
-                <div style={{ 
+                <div className={msg.role === "user" ? "chat-user-message" : "chat-bot-message"} style={{ 
                   maxWidth: "80%", 
                   padding: "15px", 
                   borderRadius: "8px", 
@@ -206,7 +206,7 @@ function AIAssistantChat() {
             ))}
             {loading && (
               <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "20px" }}>
-                <div style={{ padding: "15px", borderRadius: "8px", background: "#f1f3f5", color: "#6c757d" }}>
+                <div className="chat-bot-message" style={{ padding: "15px", borderRadius: "8px", background: "#f1f3f5", color: "#6c757d" }}>
                   Thinking...
                 </div>
               </div>
@@ -215,10 +215,11 @@ function AIAssistantChat() {
           </div>
 
           {/* Input Area */}
-          <div style={{ padding: "20px", borderTop: "1px solid #e9ecef", background: "#f8f9fa" }}>
+          <div className="chat-input-area" style={{ padding: "20px", borderTop: "1px solid #e9ecef", background: "#f8f9fa" }}>
             {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
             <div style={{ display: "flex", gap: "10px" }}>
               <input
+                className="chat-input"
                 type="text"
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}

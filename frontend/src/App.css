@@ -2469,3 +2469,57 @@ body.dark-theme .profile-detail-row {
 body.dark-theme .profile-card-header {
   border-bottom: 1px solid #334155 !important;
 }
+
+
+/* AI Assistant Chat Dark Mode Fixes */
+body.dark-theme .chat-sidebar,
+body.dark-theme .chat-input-area {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .chat-sidebar-header {
+  border-color: #334155 !important;
+}
+
+body.dark-theme .chat-session-item {
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .chat-session-item.active {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .chat-sidebar-empty {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .chat-main-area {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .chat-empty-state {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .chat-empty-title {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .chat-bot-message {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .chat-input {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .chat-input::placeholder {
+  color: #64748b !important;
+}
