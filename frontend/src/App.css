@@ -2418,3 +2418,27 @@ body.dark-theme .document-card span {
 body.dark-theme .page-header p {
   color: #94a3b8 !important;
 }
+
+/* Profile and Admin Headers Dark Mode Fixes */
+body.dark-theme .profile-header-card,
+body.dark-theme .admin-header {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .profile-title-block h1,
+body.dark-theme .admin-header h1 {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .profile-title-block p,
+body.dark-theme .profile-title-block .profile-email,
+body.dark-theme .admin-header p {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme input[type="file"]::file-selector-button {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+  border: 1px solid #475569 !important;
+}
