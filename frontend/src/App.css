@@ -2523,3 +2523,14 @@ body.dark-theme .chat-input {
 body.dark-theme .chat-input::placeholder {
   color: #64748b !important;
 }
+
+
+/* Chat Dropdown Dark Mode Fixes */
+body.dark-theme .chat-dropdown {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .chat-dropdown-item:hover {
+  background-color: #334155 !important;
+}

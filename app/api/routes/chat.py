@@ -96,3 +96,16 @@ def send_chat_message(session_id: int, request: ChatMessageCreate, db: Session =
     db.refresh(ai_msg)
 
     return ai_msg
+
+@router.delete("/{session_id}")
+def delete_chat_session(session_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    session = db.query(ChatSession).filter(ChatSession.id == session_id, ChatSession.user_id == current_user.id).first()
+    if not session:
+        raise HTTPException(status_code=404, detail="Chat session not found")
+
+    # Due to cascade delete settings in SQLAlchemy, this might also delete messages automatically.
+    # But explicitly deleting messages is safe if cascade isn't set up.
+    db.query(ChatMessage).filter(ChatMessage.session_id == session_id).delete()
+    db.delete(session)
+    db.commit()
+    return {"message": "Chat session deleted successfully"}

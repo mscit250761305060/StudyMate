@@ -4,7 +4,8 @@ import {
   getChatSessions, 
   createChatSession, 
   getChatMessages, 
-  sendChatMessage 
+  sendChatMessage,
+  deleteChatSession
 } from "../services/api";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -17,6 +18,7 @@ function AIAssistantChat() {
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const messagesEndRef = useRef(null);
 
@@ -122,6 +124,23 @@ function AIAssistantChat() {
     }
   };
 
+  const handleDeleteSession = async (e, sid) => {
+    e.stopPropagation();
+    if (!window.confirm("Are you sure you want to delete this chat session?")) return;
+    
+    try {
+      await deleteChatSession(sid);
+      setSessions(sessions.filter(s => s.id !== sid));
+      setActiveDropdown(null);
+      if (sessionId && parseInt(sessionId) === sid) {
+        navigate("/ai-assistant");
+      }
+    } catch (err) {
+      console.error("Failed to delete session", err);
+      alert("Failed to delete chat session.");
+    }
+  };
+
   return (
     <div className="page-container" style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 230px)", overflow: "hidden" }}>
       <Breadcrumb items={[{ label: "AI Assistant", link: "/ai-assistant" }, { label: "Chat" }]} />
@@ -146,18 +165,45 @@ function AIAssistantChat() {
                   key={session.id}
                   className={`chat-session-item ${isActive ? "active" : ""}`}
                   onClick={() => handleSelectSession(session.id)}
+                  onMouseLeave={() => setActiveDropdown(null)}
                   style={{ 
                     padding: "12px 15px", 
                     cursor: "pointer", 
                     borderBottom: "1px solid #eee",
                     background: isActive ? "#e2e6ea" : "transparent",
                     fontWeight: isActive ? "bold" : "normal",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis"
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    position: "relative"
                   }}
                 >
-                  {session.title}
+                  <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1 }}>
+                    {session.title}
+                  </div>
+                  <div style={{ position: "relative" }}>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === session.id ? null : session.id); }}
+                      style={{ background: "transparent", border: "none", cursor: "pointer", color: "inherit", padding: "4px" }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="12" cy="5" r="1"></circle>
+                        <circle cx="12" cy="19" r="1"></circle>
+                      </svg>
+                    </button>
+                    {activeDropdown === session.id && (
+                      <div className="chat-dropdown" style={{ position: "absolute", top: "100%", right: "0", background: "white", border: "1px solid #ccc", borderRadius: "4px", boxShadow: "0 2px 5px rgba(0,0,0,0.2)", zIndex: 10 }}>
+                        <button 
+                          className="chat-dropdown-item"
+                          onClick={(e) => handleDeleteSession(e, session.id)}
+                          style={{ padding: "8px 16px", background: "transparent", border: "none", color: "#ef4444", cursor: "pointer", width: "100%", textAlign: "left", whiteSpace: "nowrap" }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}

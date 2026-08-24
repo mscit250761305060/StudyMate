@@ -209,4 +209,9 @@ export const sendChatMessage = async (session_id, content) => {
   return response.data;
 };
 
+export const deleteChatSession = async (session_id) => {
+  const response = await api.delete(`/api/chats/${session_id}`);
+  return response.data;
+};
+
 export default api;
