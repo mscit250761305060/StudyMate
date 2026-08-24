@@ -214,4 +214,10 @@ export const deleteChatSession = async (session_id) => {
   return response.data;
 };
 
+// Statistics Endpoint
+export const getDashboardStats = async () => {
+  const response = await api.get("/api/stats");
+  return response.data;
+};
+
 export default api;
