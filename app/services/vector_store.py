@@ -50,3 +50,21 @@ def store_chunks_in_qdrant(chunks):
         )
 
     return len(points)
+
+def delete_document_from_qdrant(document_id: int):
+    """
+    Delete all chunks associated with a specific document_id from Qdrant.
+    """
+    from qdrant_client.models import Filter, FieldCondition, MatchValue
+    
+    client.delete(
+        collection_name=COLLECTION_NAME,
+        points_selector=Filter(
+            must=[
+                FieldCondition(
+                    key="document_id",
+                    match=MatchValue(value=document_id)
+                )
+            ]
+        )
+    )

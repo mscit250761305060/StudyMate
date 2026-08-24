@@ -566,3 +566,49 @@ def open_document(file_path: str, db: Session = Depends(get_db)):
             "Content-Disposition": f'inline; filename="{Path(file_path).name}"'
         }
     )
+
+@router.delete("/{document_id}")
+def delete_document(document_id: int, db: Session = Depends(get_db)):
+    from app.models.database_models import Document, DocumentFile, DocumentContent, DocumentChunk
+    
+    document = db.query(Document).filter(Document.id == document_id).first()
+    
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+        
+    try:
+        # 1. Delete from Qdrant vector store
+        from app.services.vector_store import delete_document_from_qdrant
+        try:
+            delete_document_from_qdrant(document_id)
+        except Exception as e:
+            print(f"Warning: Failed to delete from Qdrant: {e}")
+            
+        # 2. Delete database records in correct order (child to parent)
+        db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).delete()
+        db.query(DocumentContent).filter(DocumentContent.document_id == document_id).delete()
+        db.query(DocumentFile).filter(DocumentFile.document_id == document_id).delete()
+        
+        # 3. Delete physical file if exists
+        try:
+            file_path = Path(document.file_path)
+            if file_path.exists():
+                file_path.unlink()
+        except Exception as e:
+            print(f"Warning: Failed to delete physical file: {e}")
+            
+        # 4. Finally delete the Document record
+        db.delete(document)
+        db.commit()
+        
+        return {"message": "Document and all associated data deleted successfully"}
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to delete document: {str(e)}"
+        )

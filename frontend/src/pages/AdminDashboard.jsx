@@ -8,6 +8,7 @@ import {
   getSemestersByCourse,
   getSubjectsBySemester,
   uploadDocument,
+  deleteDocument,
 } from "../services/api";
 
 function AdminDashboard() {
@@ -178,7 +179,10 @@ function AdminDashboard() {
     try {
       setLoadingChapters(true);
       setError("");
-      // loadDocuments is removed as we don't display documents anymore
+      
+      // Load documents for this subject
+      await loadDocuments(value);
+      
       const chapterData = await getChaptersBySubject(value);
       setChapters(chapterData);
     } catch (err) {
@@ -266,6 +270,25 @@ function AdminDashboard() {
       setError(errorMessage);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleDeleteDocument = async (documentId) => {
+    if (!window.confirm("Are you sure you want to delete this document? This action cannot be undone and will remove it from the database and search index.")) {
+      return;
+    }
+
+    try {
+      setError("");
+      await deleteDocument(documentId);
+      setMessage("Document deleted successfully.");
+      // Refresh the documents list
+      if (subjectId) {
+        await loadDocuments(subjectId);
+      }
+    } catch (err) {
+      console.error("Delete failed:", err);
+      setError(err?.response?.data?.detail || "Failed to delete document.");
     }
   };
 
@@ -391,7 +414,36 @@ function AdminDashboard() {
         </form>
       </section>
 
-
+      {/* Uploaded Documents Section */}
+      {subjectId && (
+        <section className="admin-card card" style={{ marginTop: "2rem" }}>
+          <h2>Uploaded Documents</h2>
+          {loadingDocuments ? (
+            <p>Loading documents...</p>
+          ) : documents.length > 0 ? (
+            <div className="documents-list">
+              {documents.map((doc) => (
+                <div key={doc.id} className="document-item" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", borderBottom: "1px solid #eee" }}>
+                  <div>
+                    <h3 style={{ margin: "0 0 0.5rem 0", fontSize: "16px" }}>{doc.title}</h3>
+                    <span style={{ fontSize: "12px", color: "#666", background: "#f0f0f0", padding: "2px 8px", borderRadius: "12px" }}>
+                      {doc.document_type}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => handleDeleteDocument(doc.id)}
+                    style={{ background: "#ef4444", color: "white", border: "none", padding: "8px 16px", borderRadius: "6px", cursor: "pointer", fontSize: "14px" }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p style={{ color: "#666" }}>No documents uploaded for this subject yet.</p>
+          )}
+        </section>
+      )}
     </div>
   );
 }

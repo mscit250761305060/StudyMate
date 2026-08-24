@@ -177,6 +177,11 @@ export const uploadDocument = async ({
   return response.data;
 };
 
+export const deleteDocument = async (documentId) => {
+  const response = await api.delete(`/documents/${documentId}`);
+  return response.data;
+};
+
 // Chat Session Endpoints
 export const getChatSessions = async () => {
   const response = await api.get("/api/chats");
