@@ -170,13 +170,15 @@ function InnerApp() {
         <>
           <header className="app-header">
             <div className="header-content">
-              <div className="brand-block" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <img src={logoImage} alt="StudySphere Logo" className="header-logo" />
-                <div>
-                  <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '800', color: '#172033' }}>StudySphere</h1>
-                  <p style={{ margin: 0, fontSize: '12px', color: '#64748b', fontWeight: '500' }}>Your Learning Companion</p>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }} onClick={() => setShowAdmin(false)}>
+                <div className="brand-block" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  <img src={logoImage} alt="StudySphere Logo" className="header-logo" />
+                  <div>
+                    <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '800', color: 'var(--text-primary)' }}>StudySphere</h1>
+                    <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500' }}>Your Learning Companion</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <div className="header-actions">
                 {isAdmin && (
@@ -218,7 +220,11 @@ function InnerApp() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                   Logout
                 </button>
-                <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link 
+                  to="/profile" 
+                  style={{ textDecoration: 'none', color: 'inherit' }} 
+                  onClick={() => setShowAdmin(false)}
+                >
                   <div className="user-profile-circle" title={user.name}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
