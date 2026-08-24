@@ -11,7 +11,7 @@ import {
 import Breadcrumb from "../components/Breadcrumb";
 
 function AIAssistantChat() {
-  const { semesterId, subjectId, sessionId } = useParams();
+  const { sessionId } = useParams();
   const navigate = useNavigate();
 
   const [sessions, setSessions] = useState([]);
@@ -63,7 +63,6 @@ function AIAssistantChat() {
   };
 
   const handleNewChat = () => {
-    // Navigate back to the AI Assistant root so the user can select a new Semester/Subject context
     navigate("/ai-assistant");
   };
 
@@ -83,17 +82,11 @@ function AIAssistantChat() {
     try {
       let currentSessionId = sessionId;
 
-      // If there's no sessionId in the URL, we are starting a brand new chat for a specific subject
+      // If there's no sessionId in the URL, we are starting a brand new global chat
       if (!currentSessionId) {
-        if (!semesterId || !subjectId) {
-          setError("Missing semester or subject context to start a new chat.");
-          setLoading(false);
-          return;
-        }
-        
         // Generate a title based on the first question
         const title = question.length > 30 ? question.substring(0, 30) + "..." : question;
-        const newSession = await createChatSession(parseInt(semesterId), parseInt(subjectId), title);
+        const newSession = await createChatSession(null, null, title);
         currentSessionId = newSession.id;
         
         setSessions([newSession, ...sessions]);
@@ -226,7 +219,7 @@ function AIAssistantChat() {
               <div className="chat-empty-state" style={{ maxWidth: "600px", margin: "40px auto", textAlign: "center", color: "#6c757d" }}>
                 <h2 className="chat-empty-title" style={{ color: "#343a40", marginBottom: "15px" }}>Ready to help!</h2>
                 <p>
-                  You've selected a specific subject context. Type your question below, and I will search through the syllabus, materials, assignments, and lab plans to find the answer.
+                  Type your question below, and I will search across all your available study materials, syllabi, assignments, and lab plans to find the answer.
                 </p>
               </div>
             )}

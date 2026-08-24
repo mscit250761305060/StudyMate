@@ -15,14 +15,14 @@ router = APIRouter(
 )
 
 class ChatSessionCreate(BaseModel):
-    semester_id: int
-    subject_id: int
+    semester_id: Optional[int] = None
+    subject_id: Optional[int] = None
     title: str
 
 class ChatSessionResponse(BaseModel):
     id: int
-    semester_id: int
-    subject_id: int
+    semester_id: Optional[int] = None
+    subject_id: Optional[int] = None
     title: str
 
     class Config:

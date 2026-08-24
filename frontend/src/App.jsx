@@ -8,7 +8,6 @@ import Syllabus from "./pages/Syllabus";
 import LabPlan from "./pages/LabPlan";
 import PreviousPapers from "./pages/QuestionPapers"; // the file is still named QuestionPapers.jsx but exports PreviousPapers
 import StudyMaterials from "./pages/StudyMaterials";
-import AIAssistant from "./pages/AIAssistant";
 import AIAssistantChat from "./pages/AIAssistantChat";
 import Assignments from "./pages/Assignments";
 import PracticePapers from "./pages/PracticePapers";
@@ -241,9 +240,7 @@ function InnerApp() {
                 <Route path="/previous-papers/semester/:semesterId" element={<PreviousPapers semesters={semesters} />} />
                 <Route path="/previous-papers/semester/:semesterId/subject/:subjectId" element={<PreviousPapers semesters={semesters} />} />
 
-                <Route path="/ai-assistant" element={<AIAssistant semesters={semesters} />} />
-                <Route path="/ai-assistant/semester/:semesterId" element={<AIAssistant semesters={semesters} />} />
-                <Route path="/ai-assistant/semester/:semesterId/subject/:subjectId" element={<AIAssistantChat />} />
+                <Route path="/ai-assistant" element={<AIAssistantChat />} />
                 <Route path="/ai-assistant/chat/:sessionId" element={<AIAssistantChat />} />
 
                 <Route path="/blog" element={<Blog />} />

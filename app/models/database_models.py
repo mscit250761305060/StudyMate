@@ -274,14 +274,14 @@ class ChatSession(Base):
         nullable=False
     )
 
-    semester_id: Mapped[int] = mapped_column(
+    semester_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("semesters.id"),
-        nullable=False
+        nullable=True
     )
 
-    subject_id: Mapped[int] = mapped_column(
+    subject_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("subjects.id"),
-        nullable=False
+        nullable=True
     )
 
     title: Mapped[str] = mapped_column(

@@ -188,7 +188,7 @@ export const getChatSessions = async () => {
   return response.data;
 };
 
-export const createChatSession = async (semester_id, subject_id, title) => {
+export const createChatSession = async (semester_id = null, subject_id = null, title) => {
   const response = await api.post("/api/chats", {
     semester_id,
     subject_id,
