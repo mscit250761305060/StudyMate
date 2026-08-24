@@ -2,6 +2,36 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-primary: var(--bg-primary);
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-secondary);
+  --card-bg: var(--card-bg);
+  --border-color: var(--border-color);
+  --header-bg: linear-gradient(135deg, var(--text-primary) 0%, #1e2d4d 100%);
+  --btn-bg: var(--card-bg);
+  --btn-text: var(--text-primary);
+  --input-bg: var(--card-bg);
+  --input-text: var(--text-primary);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body.dark-theme {
+  --bg-primary: var(--text-primary);
+  --text-primary: var(--bg-primary);
+  --text-secondary: #94a3b8;
+  --card-bg: var(--text-primary);
+  --border-color: #334155;
+  --header-bg: linear-gradient(135deg, #020617 0%, var(--text-primary) 100%);
+  --btn-bg: #334155;
+  --btn-text: var(--border-color);
+  --input-bg: var(--text-primary);
+  --input-text: var(--bg-primary);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
 body {
   margin: 0;
   font-family:
@@ -12,8 +42,9 @@ body {
     "Segoe UI",
     sans-serif;
 
-  background: #f7f9fc;
-  color: #172033;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 button {
@@ -30,8 +61,8 @@ button {
 
 .header {
   padding: 38px 7% 28px;
-  background: linear-gradient(135deg, #172033 0%, #1e2d4d 100%);
-  color: white;
+  background: var(--header-bg);
+  color: var(--card-bg);
 }
 
 .header-row {
@@ -48,7 +79,7 @@ button {
 
 .header p {
   margin: 0;
-  color: #b9c3d4;
+  color: var(--text-secondary);
   font-size: 15px;
 }
 
@@ -69,10 +100,10 @@ button {
 .header-nav-button,
 .admin-toggle-button {
   padding: 8px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: white;
-  color: #0f172a;
+  background: var(--card-bg);
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 14px;
   transition: all 0.2s ease;
@@ -80,7 +111,7 @@ button {
 
 .header-nav-button:hover,
 .admin-toggle-button:hover {
-  background: #f1f5f9;
+  background: var(--border-color);
   border-color: #94a3b8;
 }
 
@@ -88,18 +119,18 @@ button {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: white;
+  background: var(--card-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0f172a;
+  color: var(--text-primary);
   cursor: pointer;
   transition: background 0.2s;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
 }
 
 .user-profile-circle:hover {
-  background: #f1f5f9;
+  background: var(--border-color);
 }
 
 
@@ -120,7 +151,7 @@ button {
 
   padding: 28px;
 
-  background: white;
+  background: var(--card-bg);
 
   border: 1px solid #e5eaf2;
 
@@ -152,9 +183,9 @@ button {
 
   border-radius: 10px;
 
-  background: white;
+  background: var(--card-bg);
 
-  color: #172033;
+  color: var(--text-primary);
 
   font-weight: 600;
 }
@@ -170,7 +201,7 @@ button {
 
   background: #2563eb;
 
-  color: white;
+  color: var(--card-bg);
 }
 
 
@@ -204,9 +235,9 @@ button {
 
   border-radius: 14px;
 
-  background: white;
+  background: var(--card-bg);
 
-  color: #172033;
+  color: var(--text-primary);
 
   font-size: 17px;
 
@@ -299,9 +330,9 @@ button {
 
   border-radius: 14px;
 
-  background: white;
+  background: var(--card-bg);
 
-  color: #172033;
+  color: var(--text-primary);
 
   text-align: left;
 
@@ -376,9 +407,9 @@ button {
 
   border-radius: 14px;
 
-  background: white;
+  background: var(--card-bg);
 
-  color: #172033;
+  color: var(--text-primary);
 
   text-align: left;
 
@@ -451,7 +482,7 @@ button {
 
   border-radius: 14px;
 
-  background: white;
+  background: var(--card-bg);
 
   transition: 0.2s;
 }
@@ -536,14 +567,14 @@ button {
 
   font-weight: 600;
 
-  color: #172033;
+  color: var(--text-primary);
 }
 
 /* ROUTED PAGE STRUCTURE */
 
 .app-header {
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--card-bg);
+  color: var(--text-primary);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
@@ -575,7 +606,7 @@ button {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-bottom: 20px;
 }
 .breadcrumb a {
@@ -587,7 +618,7 @@ button {
   text-decoration: underline;
 }
 .breadcrumb span {
-  color: #172033;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -608,11 +639,11 @@ button {
 
 .page-header p {
   margin: 0;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .content-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 24px;
@@ -629,7 +660,7 @@ button {
 .subject-card {
   border: 1px solid #dfe5ef;
   border-radius: 12px;
-  background: #f8fafc;
+  background: var(--bg-primary);
   padding: 18px;
   display: flex;
   flex-direction: column;
@@ -643,7 +674,7 @@ button {
 .practice-generate-button,
 .admin-upload-button {
   background: #2563eb;
-  color: white;
+  color: var(--card-bg);
   border: none;
   border-radius: 8px;
   padding: 10px 16px;
@@ -672,8 +703,8 @@ button {
   padding: 24px;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  background: white;
-  color: #172033;
+  background: var(--card-bg);
+  color: var(--text-primary);
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   position: relative;
@@ -693,7 +724,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: #f1f5f9;
+  background: var(--border-color);
   color: #3b82f6;
   margin-bottom: 8px;
 }
@@ -706,14 +737,14 @@ button {
 
 .dashboard-card p {
   margin: 0;
-  color: #64748b;
+  color: var(--text-secondary);
   line-height: 1.5;
   font-size: 14px;
 }
 
 .dashboard-card.ai-card {
   border: 1px solid #c7d2fe;
-  background: linear-gradient(to bottom right, #ffffff, #f5f3ff);
+  background: linear-gradient(to bottom right, var(--card-bg), #f5f3ff);
 }
 .dashboard-card.ai-card:hover {
   border-color: #6366f1;
@@ -732,9 +763,9 @@ button {
   text-align: center;
   gap: 10px;
   padding: 30px 20px;
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed var(--border-color);
   border-radius: 12px;
-  background: #f8fafc;
+  background: var(--bg-primary);
 }
 
 .material-icon {
@@ -749,7 +780,7 @@ button {
 
 .field-label {
   font-weight: 700;
-  color: #172033;
+  color: var(--text-primary);
 }
 
 textarea,
@@ -773,7 +804,7 @@ textarea {
 .answer-box {
   border: 1px solid #e2e8f0;
   border-radius: 10px;
-  background: #f8fafc;
+  background: var(--bg-primary);
   padding: 16px;
 }
 
@@ -851,7 +882,7 @@ textarea {
   margin-top: 20px;
   padding: 20px;
 
-  background: #ffffff;
+  background: var(--card-bg);
 
   border: 1px solid #dbe3ef;
 
@@ -865,7 +896,7 @@ textarea {
 .section-header p {
   margin: 0 0 18px;
 
-  color: #64748b;
+  color: var(--text-secondary);
 
   font-size: 14px;
 }
@@ -885,7 +916,7 @@ textarea {
 
   padding: 14px;
 
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
 
   border-radius: 8px;
 
@@ -913,7 +944,7 @@ textarea {
 
   background: #2563eb;
 
-  color: white;
+  color: var(--card-bg);
 
   font-weight: 600;
 
@@ -953,7 +984,7 @@ textarea {
 .ai-answer-header {
   padding: 12px 16px;
 
-  background: #f8fafc;
+  background: var(--bg-primary);
 
   border-bottom: 1px solid #dbe3ef;
 
@@ -965,7 +996,7 @@ textarea {
   justify-content: space-between;
   gap: 12px;
   padding: 12px 18px;
-  background: #f8fafc;
+  background: var(--bg-primary);
   border-bottom: 1px solid #dbe3ef;
   font-size: 13px;
   color: #475569;
@@ -992,7 +1023,7 @@ textarea {
 .student-dashboard {
   margin-bottom: 35px;
   padding: 28px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
 }
@@ -1019,8 +1050,8 @@ textarea {
   padding: 18px 16px;
   border: 1px solid #dfe5ef;
   border-radius: 12px;
-  background: #f8fafc;
-  color: #172033;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-weight: 700;
 }
 
@@ -1042,7 +1073,7 @@ textarea {
 
 .empty-state h3 {
   margin: 0 0 8px;
-  color: #172033;
+  color: var(--text-primary);
 }
 
 .empty-state-inline {
@@ -1083,7 +1114,7 @@ textarea {
 
 .admin-header {
   padding: 26px 28px;
-  background: #ffffff;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
 }
@@ -1095,7 +1126,7 @@ textarea {
 
 .admin-header p {
   margin: 0;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .admin-card {
@@ -1103,7 +1134,7 @@ textarea {
   flex-direction: column;
   gap: 12px;
   padding: 28px;
-  background: #ffffff;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
 }
@@ -1123,9 +1154,9 @@ textarea {
 .admin-file-input {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--card-bg);
   font: inherit;
 }
 
@@ -1136,14 +1167,14 @@ textarea {
   border: none;
   border-radius: 8px;
   background: #2563eb;
-  color: white;
+  color: var(--card-bg);
   font-weight: 700;
 }
 
 .question-papers {
   margin-bottom: 35px;
   padding: 28px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
 }
@@ -1155,7 +1186,7 @@ textarea {
 
 .question-papers .section-header p {
   margin: 0 0 20px;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .question-paper-category {
@@ -1169,17 +1200,24 @@ textarea {
 
 .question-paper-empty {
   padding: 18px 16px;
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed var(--border-color);
   border-radius: 10px;
-  background: #f8fafc;
+  background: var(--bg-primary);
   color: #475569;
 }
 
 /* ========================================= */
 
+.form-group {
+  margin-bottom: 20px;
+}
+
 .form-group label {
+  display: block;
   font-weight: 600;
   font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
 }
 
 .form-group input,
@@ -1187,9 +1225,9 @@ textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 10px 12px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   border-radius: 7px;
-  background: white;
+  background: var(--card-bg);
   font-size: 14px;
 }
 
@@ -1200,7 +1238,7 @@ textarea {
 }
 
 .form-group select:disabled {
-  background: #f1f5f9;
+  background: var(--border-color);
   cursor: not-allowed;
 }
 
@@ -1238,7 +1276,7 @@ textarea {
   border-radius: 7px;
   padding: 10px 18px;
   background: #2563eb;
-  color: white;
+  color: var(--card-bg);
   font-weight: 600;
   cursor: pointer;
 }
@@ -1255,7 +1293,7 @@ textarea {
 .practice-generator {
   margin-bottom: 35px;
   padding: 28px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
 }
@@ -1267,7 +1305,7 @@ textarea {
 
 .practice-generator p {
   margin: 0 0 18px;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .practice-label {
@@ -1281,9 +1319,9 @@ textarea {
 .practice-select {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--card-bg);
   font: inherit;
 }
 
@@ -1293,7 +1331,7 @@ textarea {
   border: none;
   border-radius: 8px;
   background: #2563eb;
-  color: white;
+  color: var(--card-bg);
   font-weight: 700;
   cursor: pointer;
 }
@@ -1306,7 +1344,7 @@ textarea {
 .assignment-assistant {
   margin-bottom: 35px;
   padding: 28px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
 }
@@ -1318,15 +1356,15 @@ textarea {
 
 .assignment-assistant p {
   margin: 0 0 18px;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .assignment-file-input {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--card-bg);
   font: inherit;
 }
 
@@ -1334,7 +1372,7 @@ textarea {
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--bg-primary);
   color: #334155;
   font-size: 14px;
 }
@@ -1345,7 +1383,7 @@ textarea {
   border: none;
   border-radius: 8px;
   background: #2563eb;
-  color: white;
+  color: var(--card-bg);
   font-weight: 700;
   cursor: pointer;
 }
@@ -1367,7 +1405,7 @@ textarea {
   width: 100%;
   max-width: 400px;
   padding: 32px;
-  background: white;
+  background: var(--card-bg);
   border: 1px solid #e5eaf2;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
@@ -1385,7 +1423,7 @@ textarea {
 
 .auth-header p {
   margin: 0;
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
@@ -1401,7 +1439,7 @@ textarea {
   border: none;
   border-radius: 8px;
   background: #2563eb;
-  color: white;
+  color: var(--card-bg);
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s;
@@ -1430,7 +1468,7 @@ textarea {
 
 /* FOOTER */
 .app-footer {
-  background: #f8fafc;
+  background: var(--bg-primary);
   color: #334155;
   padding: 60px 0 0 0;
   margin-top: 60px;
@@ -1451,14 +1489,14 @@ textarea {
 .minimalist-brand h2 {
   font-size: 20px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .minimalist-brand p {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1473,7 +1511,7 @@ textarea {
 }
 
 .minimalist-links a {
-  color: #0f172a;
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
@@ -1518,8 +1556,8 @@ textarea {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid #cbd5e1;
-  color: #64748b;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   transition: all 0.2s;
 }
 
@@ -1530,7 +1568,7 @@ textarea {
 }
 
 .minimalist-bottom p {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 12px;
   margin: 0;
 }
@@ -1542,7 +1580,7 @@ textarea {
   gap: 30px;
 }
 .blog-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #e5eaf2;
@@ -1565,7 +1603,7 @@ textarea {
   top: 15px;
   left: 15px;
   background: rgba(59, 130, 246, 0.9);
-  color: white;
+  color: var(--card-bg);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
@@ -1622,7 +1660,7 @@ textarea {
 .contact-info-panel, .contact-form-panel {
   flex: 1;
   min-width: 300px;
-  background: white;
+  background: var(--card-bg);
   padding: 35px;
   border-radius: 16px;
   border: 1px solid #e5eaf2;
@@ -1694,7 +1732,7 @@ textarea {
 }
 .submit-btn {
   background: #3b82f6;
-  color: white;
+  color: var(--card-bg);
   border: none;
   padding: 14px 24px;
   border-radius: 8px;
@@ -1723,8 +1761,8 @@ textarea {
 
 /* UNAUTHENTICATED LAYOUT (Light Vibe) */
 .unauth-layout {
-  background-color: #f7f9fc;
-  color: #172033;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
@@ -1826,7 +1864,7 @@ textarea {
   font-weight: 600;
   letter-spacing: -0.04em;
   margin-bottom: 24px;
-  background: linear-gradient(to right, #ffffff, #a1a1aa);
+  background: linear-gradient(to right, var(--card-bg), #a1a1aa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1905,7 +1943,7 @@ textarea {
 
 .prompt-submit-btn {
   background: #3b82f6;
-  color: white;
+  color: var(--card-bg);
   border: none;
   width: 36px;
   height: 36px;
@@ -1946,7 +1984,7 @@ textarea {
   backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-  color: white;
+  color: var(--card-bg);
 }
 
 .dark-header p {
@@ -1960,7 +1998,7 @@ textarea {
 .dark-form input, .dark-form select {
   background: rgba(0, 0, 0, 0.2) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: white !important;
+  color: var(--card-bg) !important;
 }
 
 .dark-form input:focus, .dark-form select:focus {
@@ -1969,7 +2007,7 @@ textarea {
 
 .dark-auth-btn {
   background: #3b82f6 !important;
-  color: white !important;
+  color: var(--card-bg) !important;
 }
 
 .dark-auth-btn:hover:not(:disabled) {
@@ -2000,7 +2038,7 @@ textarea {
 }
 
 .profile-header-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 30px;
   display: flex;
@@ -2015,7 +2053,7 @@ textarea {
   height: 80px;
   border-radius: 50%;
   background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
+  color: var(--card-bg);
   font-size: 32px;
   font-weight: bold;
   display: flex;
@@ -2027,11 +2065,11 @@ textarea {
 .profile-title-block h1 {
   margin: 0;
   font-size: 24px;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .profile-email {
-  color: #64748b;
+  color: var(--text-secondary);
   margin: 4px 0 12px;
 }
 
@@ -2052,7 +2090,7 @@ textarea {
 }
 
 .profile-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
@@ -2065,13 +2103,13 @@ textarea {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #f8fafc;
+  background: var(--bg-primary);
 }
 
 .profile-card-header h2 {
   margin: 0;
   font-size: 16px;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .profile-card-content {
@@ -2086,7 +2124,7 @@ textarea {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 12px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .profile-detail-row:last-child {
@@ -2095,13 +2133,13 @@ textarea {
 }
 
 .detail-label {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .detail-value {
   font-weight: 500;
-  color: #0f172a;
+  color: var(--text-primary);
   font-size: 14px;
 }
 

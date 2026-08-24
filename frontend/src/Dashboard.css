@@ -6,14 +6,14 @@ body {
 
 /* Header Adjustments */
 .app-header {
-  background: white;
+  background: var(--card-bg);
   border-bottom: 1px solid #edf1f7;
   box-shadow: none;
 }
 
 .theme-toggle {
   display: flex;
-  background: #f1f5f9;
+  background: var(--border-color);
   border-radius: 20px;
   padding: 4px;
   gap: 4px;
@@ -24,14 +24,14 @@ body {
   border: none;
   border-radius: 16px;
   padding: 6px 10px;
-  color: #64748b;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .theme-btn.active {
-  background: white;
-  color: #172033;
+  background: var(--card-bg);
+  color: var(--text-primary);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
@@ -107,7 +107,7 @@ body {
 .banner-content h2 {
   font-size: 32px;
   margin: 0 0 8px 0;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .banner-content p {
@@ -118,7 +118,7 @@ body {
 .search-bar {
   display: flex;
   align-items: center;
-  background: white;
+  background: var(--card-bg);
   padding: 12px 20px;
   border-radius: 30px;
   width: 100%;
@@ -160,7 +160,7 @@ body {
 }
 
 .dash-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 24px 24px 64px 24px;
   text-decoration: none;
@@ -199,13 +199,13 @@ body {
 
 .card-text h3 {
   margin: 0 0 8px 0;
-  color: #1e293b;
+  color: var(--text-primary);
   font-size: 18px;
 }
 
 .card-text p {
   margin: 0;
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -264,7 +264,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 24px 40px;
   margin-bottom: 40px;
@@ -293,12 +293,12 @@ body {
 .stat-info h4 {
   margin: 0 0 4px 0;
   font-size: 18px;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .stat-info span {
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .stat-divider {
@@ -336,13 +336,13 @@ body {
 
 .footer-logo-wrap h3 {
   margin: 0;
-  color: #0f172a;
+  color: var(--text-primary);
   font-size: 18px;
 }
 
 .footer-logo-wrap p {
   margin: 4px 0 0 0;
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -353,20 +353,20 @@ body {
 
 .footer-col h4 {
   margin: 0 0 16px 0;
-  color: #0f172a;
+  color: var(--text-primary);
   font-size: 14px;
 }
 
 .footer-col a {
   display: block;
-  color: #64748b;
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 13px;
   margin-bottom: 12px;
 }
 
 .footer-quote {
-  background: #f1f5f9;
+  background: var(--border-color);
   border-radius: 12px;
   padding: 24px;
   position: relative;
@@ -385,7 +385,7 @@ body {
 
 .footer-quote p {
   margin: 0 0 12px 0;
-  color: #0f172a;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 14px;
   position: relative;
@@ -395,7 +395,7 @@ body {
 
 .footer-quote span {
   display: block;
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 12px;
   padding-left: 12px;
 }
@@ -403,7 +403,7 @@ body {
 .footer-bottom {
   text-align: center;
   padding: 24px;
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
