@@ -2364,3 +2364,29 @@ body.dark-theme .theme-btn.active {
   background-color: #1e293b !important;
   color: #f8fafc !important;
 }
+
+
+/* Additional UI Polish for Dark Mode */
+body.dark-theme .welcome-banner {
+  background: linear-gradient(100deg, #1e293b 0%, #0f172a 100%) !important;
+}
+
+body.dark-theme .welcome-banner h2 {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .welcome-banner p,
+body.dark-theme .banner-greeting {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .stats-row {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .card-arrow {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+}
