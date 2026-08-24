@@ -91,11 +91,9 @@ function AIAssistantChat() {
         
         setSessions([newSession, ...sessions]);
         
-        // We do NOT navigate immediately to avoid unmounting the component while it's loading,
-        // Instead, we just proceed with the backend request, but we update URL eventually?
-        // Actually, updating the URL via navigate will re-render but might unmount if paths are different.
-        // It's safer to just push history so the user can refresh and stay here.
-        window.history.replaceState(null, "", `/ai-assistant/chat/${currentSessionId}`);
+        // We use navigate with replace so React Router detects the parameter change
+        // and provides the correct sessionId for subsequent questions.
+        navigate(`/ai-assistant/chat/${currentSessionId}`, { replace: true });
       }
 
       // Optimistically add user message to UI
