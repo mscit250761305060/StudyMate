@@ -2459,3 +2459,13 @@ body.dark-theme .btn-secondary {
 body.dark-theme .btn-secondary:hover {
   background-color: #475569 !important;
 }
+
+
+/* Profile Detail Row Dark Mode Fix */
+body.dark-theme .profile-detail-row {
+  border-bottom: none !important;
+}
+
+body.dark-theme .profile-card-header {
+  border-bottom: 1px solid #334155 !important;
+}
