@@ -52,8 +52,12 @@ def build_rag_prompt(
 You are an AI Study Assistant for the
 BSc IT course at SSASIT.
 
-Answer the student's question using ONLY
-the study material provided below.
+First, try to answer the student's question using
+the provided Study Material below. If the provided
+material does not contain enough information to provide
+a complete answer, you MUST use your general knowledge 
+(as if searching the web) to fill in the missing details
+and provide a complete, helpful answer.
 
 {history_str}Student Question:
 {question}
@@ -63,16 +67,12 @@ Study Material:
 
 Instructions:
 
-1. Give a clear and easy-to-understand answer.
+1. Give a clear, complete, and easy-to-understand answer.
 2. Keep the answer relevant to the student's question.
-3. Prefer the terminology used in the provided study material.
-4. Do not invent syllabus content.
-5. If the provided material does not contain
-   enough information to answer the question,
-   clearly say that the available study material
-   does not contain enough information.
-6. Do not pretend that information is present
-   when it is not.
+3. Prioritize the provided study material first. Use its terminology where appropriate.
+4. If the provided material is incomplete or missing, supplement the answer using your general knowledge.
+5. Do not invent syllabus content or make up fake facts.
+6. Make the transition seamless; just provide the best possible answer to the student.
 """
 
     return prompt
