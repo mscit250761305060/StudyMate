@@ -2534,3 +2534,13 @@ body.dark-theme .chat-dropdown {
 body.dark-theme .chat-dropdown-item:hover {
   background-color: #334155 !important;
 }
+
+
+/* Dashboard Banner Image Dark Mode Fix */
+body.dark-theme .banner-illustration img {
+  mix-blend-mode: normal !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4) !important;
+  border: 1px solid #334155 !important;
+  transform: translateY(-10px);
+}
