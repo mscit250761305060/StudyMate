@@ -161,7 +161,7 @@ body {
 .dash-card {
   background: white;
   border-radius: 16px;
-  padding: 24px;
+  padding: 24px 24px 64px 24px;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -191,6 +191,10 @@ body {
 .orange-icon { background: #ffedd5; color: #f97316; }
 .pink-icon { background: #fce7f3; color: #ec4899; }
 .ai-icon { background: #e0e7ff; color: #4f46e5; }
+
+.card-text {
+  padding-right: 36px;
+}
 
 .card-text h3 {
   margin: 0 0 8px 0;
