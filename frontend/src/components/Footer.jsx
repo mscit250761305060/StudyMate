@@ -28,16 +28,16 @@ function Footer() {
           <div className="footer-col">
             <h4>Resources</h4>
             <Link to="/previous-papers">Previous Papers</Link>
-            <Link to="#">Study Tips</Link>
-            <Link to="#">Exam Preparation</Link>
-            <Link to="#">Guides</Link>
+            <Link to="/blog">Study Tips & Blog</Link>
+            <Link to="/faq">Exam Guides & FAQ</Link>
+            <Link to="/about">About Us</Link>
           </div>
 
           <div className="footer-col">
             <h4>Connect</h4>
-            <Link to="#">Discord Community</Link>
-            <Link to="#">Feedback</Link>
-            <Link to="#">Support</Link>
+            <a href="https://discord.gg/studysphere" target="_blank" rel="noopener noreferrer">Discord Community</a>
+            <Link to="/contact">Feedback</Link>
+            <Link to="/contact">Support</Link>
           </div>
         </div>
 
