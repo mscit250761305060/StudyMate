@@ -2,6 +2,8 @@
 
 > **Your All-in-One BSc IT Academic Assistant**
 
+🌐 **Live Demo:** [https://studymate-frontend-jyb4.onrender.com](https://studymate-frontend-jyb4.onrender.com)
+
 StudySphere is a comprehensive web portal designed specifically for BSc IT students to streamline their academic journey. From accessing interactive syllabi to chatting with an AI assistant for study help, StudySphere acts as a centralized hub for all your educational needs.
 
 ## ✨ Features
