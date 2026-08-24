@@ -234,7 +234,7 @@ body {
 .green-arrow { background: #f0fdf4; color: #22c55e; }
 .orange-arrow { background: #fff7ed; color: #f97316; }
 .pink-arrow { background: #fdf2f8; color: #ec4899; }
-.ai-arrow { background: #4f46e5; color: white; }
+.ai-arrow { background: white; color: #4f46e5; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15); }
 
 /* Grid specific rules */
 .main-dashboard-grid > a:nth-child(5) {
