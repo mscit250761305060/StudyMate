@@ -2442,3 +2442,20 @@ body.dark-theme input[type="file"]::file-selector-button {
   color: #f8fafc !important;
   border: 1px solid #475569 !important;
 }
+
+
+/* Profile Action Buttons and Badges Dark Mode Fixes */
+body.dark-theme .status-active {
+  background-color: #064e3b !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .btn-secondary {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+  border: 1px solid #475569 !important;
+}
+
+body.dark-theme .btn-secondary:hover {
+  background-color: #475569 !important;
+}
