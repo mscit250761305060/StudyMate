@@ -2390,3 +2390,31 @@ body.dark-theme .card-arrow {
   background-color: #334155 !important;
   color: #f8fafc !important;
 }
+
+/* Fixes for inner page cards (Syllabus, etc.) */
+body.dark-theme .dashboard-card,
+body.dark-theme .document-card,
+body.dark-theme .empty-state {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .dashboard-card:hover,
+body.dark-theme .document-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .dashboard-card h3,
+body.dark-theme .document-card h4,
+body.dark-theme .empty-state p {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .dashboard-card p,
+body.dark-theme .document-card span {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .page-header p {
+  color: #94a3b8 !important;
+}
