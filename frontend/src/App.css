@@ -1177,6 +1177,13 @@ textarea {
 
 /* ========================================= */
 
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .form-group label {
   font-weight: 600;
   font-size: 14px;
