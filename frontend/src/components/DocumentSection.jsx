@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDocumentsBySubject, getDocumentUrl, getSubjects } from "../services/api";
+import { getDocumentsBySubject, getDocumentUrl, getSubjects, deleteDocument } from "../services/api";
 import Breadcrumb from "./Breadcrumb";
+import { useAuth } from "../context/AuthContext";
 
 function DocumentSection({ title, description, documentType, semesters, basePath }) {
   const navigate = useNavigate();
   const { semesterId, subjectId } = useParams();
+  const { isAdmin } = useAuth();
 
   const selectedSemester = semesters?.find(s => s.id.toString() === semesterId) || null;
 
@@ -62,6 +64,21 @@ function DocumentSection({ title, description, documentType, semesters, basePath
 
     loadDocuments();
   }, [selectedSubject, documentType, title]);
+
+  const handleDeleteDocument = async (e, documentId) => {
+    e.stopPropagation();
+    if (!window.confirm("Are you sure you want to delete this document? This action cannot be undone and will remove it from the database and search index.")) {
+      return;
+    }
+    
+    try {
+      await deleteDocument(documentId);
+      setDocuments(documents.filter(d => d.id !== documentId));
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert(err?.response?.data?.detail || "Failed to delete document.");
+    }
+  };
 
   const breadcrumbItems = [
     { 
@@ -175,10 +192,27 @@ function DocumentSection({ title, description, documentType, semesters, basePath
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
                 <div className="document-icon" style={{ background: '#fee2e2', color: '#ef4444', padding: '10px', borderRadius: '4px', fontWeight: 'bold' }}>PDF</div>
-                <div className="document-info">
+                <div className="document-info" style={{ flexGrow: 1 }}>
                   <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: '#1f2937' }}>{doc.title}</h4>
                   {doc.academic_year && <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>Year: {doc.academic_year}</span>}
                 </div>
+                {isAdmin && (
+                  <button 
+                    onClick={(e) => handleDeleteDocument(e, doc.id)}
+                    style={{ 
+                      background: "#ef4444", 
+                      color: "white", 
+                      border: "none", 
+                      padding: "6px 12px", 
+                      borderRadius: "6px", 
+                      cursor: "pointer", 
+                      fontSize: "12px",
+                      marginLeft: "auto"
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             ))}
           </div>
