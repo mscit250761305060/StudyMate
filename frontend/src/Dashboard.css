@@ -6,14 +6,14 @@ body {
 
 /* Header Adjustments */
 .app-header {
-  background: var(--card-bg);
+  background: white;
   border-bottom: 1px solid #edf1f7;
   box-shadow: none;
 }
 
 .theme-toggle {
   display: flex;
-  background: var(--border-color);
+  background: #f1f5f9;
   border-radius: 20px;
   padding: 4px;
   gap: 4px;
@@ -24,14 +24,14 @@ body {
   border: none;
   border-radius: 16px;
   padding: 6px 10px;
-  color: var(--text-secondary);
+  color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .theme-btn.active {
-  background: var(--card-bg);
-  color: var(--text-primary);
+  background: white;
+  color: #172033;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
@@ -107,7 +107,7 @@ body {
 .banner-content h2 {
   font-size: 32px;
   margin: 0 0 8px 0;
-  color: var(--text-primary);
+  color: #0f172a;
 }
 
 .banner-content p {
@@ -118,7 +118,7 @@ body {
 .search-bar {
   display: flex;
   align-items: center;
-  background: var(--card-bg);
+  background: white;
   padding: 12px 20px;
   border-radius: 30px;
   width: 100%;
@@ -160,7 +160,7 @@ body {
 }
 
 .dash-card {
-  background: var(--card-bg);
+  background: white;
   border-radius: 16px;
   padding: 24px 24px 64px 24px;
   text-decoration: none;
@@ -199,13 +199,13 @@ body {
 
 .card-text h3 {
   margin: 0 0 8px 0;
-  color: var(--text-primary);
+  color: #1e293b;
   font-size: 18px;
 }
 
 .card-text p {
   margin: 0;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -264,7 +264,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--card-bg);
+  background: white;
   border-radius: 16px;
   padding: 24px 40px;
   margin-bottom: 40px;
@@ -293,12 +293,12 @@ body {
 .stat-info h4 {
   margin: 0 0 4px 0;
   font-size: 18px;
-  color: var(--text-primary);
+  color: #0f172a;
 }
 
 .stat-info span {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: #64748b;
 }
 
 .stat-divider {
@@ -336,13 +336,13 @@ body {
 
 .footer-logo-wrap h3 {
   margin: 0;
-  color: var(--text-primary);
+  color: #0f172a;
   font-size: 18px;
 }
 
 .footer-logo-wrap p {
   margin: 4px 0 0 0;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 13px;
 }
 
@@ -353,20 +353,20 @@ body {
 
 .footer-col h4 {
   margin: 0 0 16px 0;
-  color: var(--text-primary);
+  color: #0f172a;
   font-size: 14px;
 }
 
 .footer-col a {
   display: block;
-  color: var(--text-secondary);
+  color: #64748b;
   text-decoration: none;
   font-size: 13px;
   margin-bottom: 12px;
 }
 
 .footer-quote {
-  background: var(--border-color);
+  background: #f1f5f9;
   border-radius: 12px;
   padding: 24px;
   position: relative;
@@ -385,7 +385,7 @@ body {
 
 .footer-quote p {
   margin: 0 0 12px 0;
-  color: var(--text-primary);
+  color: #0f172a;
   font-weight: 500;
   font-size: 14px;
   position: relative;
@@ -395,7 +395,7 @@ body {
 
 .footer-quote span {
   display: block;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 12px;
   padding-left: 12px;
 }
@@ -403,7 +403,7 @@ body {
 .footer-bottom {
   text-align: center;
   padding: 24px;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 13px;
 }
 
