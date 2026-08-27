@@ -10,6 +10,16 @@ import {
   uploadDocument,
   deleteDocument,
 } from "../services/api";
+import CustomSelect from "../components/CustomSelect";
+
+const documentTypeOptions = [
+  { value: "SYLLABUS", label: "Syllabus", icon: "📖" },
+  { value: "STUDY_MATERIAL", label: "Study Material", icon: "📚" },
+  { value: "ASSIGNMENT", label: "Assignment", icon: "📝" },
+  { value: "LAB_PLAN", label: "Lab Plan", icon: "🧪" },
+  { value: "COLLEGE_PAPER", label: "College Paper", icon: "📄" },
+  { value: "UNIVERSITY_PAPER", label: "University Paper", icon: "🎓" },
+];
 
 function AdminDashboard() {
   const [colleges, setColleges] = useState([]);
@@ -308,19 +318,13 @@ function AdminDashboard() {
         <form onSubmit={handleUpload} className="admin-upload-form">
           <div className="form-group">
             <label htmlFor="documentType">Document Type</label>
-            <select
+            <CustomSelect
               id="documentType"
               value={documentType}
               onChange={(event) => setDocumentType(event.target.value)}
-              required
-            >
-              <option value="SYLLABUS">Syllabus</option>
-              <option value="STUDY_MATERIAL">Study Material</option>
-              <option value="ASSIGNMENT">Assignment</option>
-              <option value="LAB_PLAN">Lab Plan</option>
-              <option value="COLLEGE_PAPER">College Paper</option>
-              <option value="UNIVERSITY_PAPER">University Paper</option>
-            </select>
+              options={documentTypeOptions}
+              placeholder="Select Document Type"
+            />
           </div>
 
 
