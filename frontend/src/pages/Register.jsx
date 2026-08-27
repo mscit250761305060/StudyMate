@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import CustomSelect from '../components/CustomSelect';
 import { useAuth } from '../context/AuthContext';
 import { getColleges, getCourses, getSemesters } from '../services/api';
 
@@ -110,18 +111,19 @@ function Register() {
           
           <div className="form-group">
             <label htmlFor="course" style={{ color: '#475569' }}>Stream / Course</label>
-            <select
+            <CustomSelect
               id="course"
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
-              required
-              style={{ background: 'white', color: '#172033', border: '1px solid #cbd5e1' }}
-            >
-              <option value="">Select your course</option>
-              {courses.map(course => (
-                <option key={course.id} value={course.id}>{course.name}</option>
-              ))}
-            </select>
+              options={[
+                { value: "", label: "Select your course" },
+                ...courses.map((course) => ({
+                  value: String(course.id),
+                  label: course.name,
+                })),
+              ]}
+              placeholder="Select your course"
+            />
           </div>
 
           <button type="submit" className="auth-button" disabled={loading} style={{ background: '#2563eb', color: 'white' }}>

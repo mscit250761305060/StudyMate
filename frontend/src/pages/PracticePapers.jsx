@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CustomSelect from "../components/CustomSelect";
 
 function PracticePapers() {
   const [examType, setExamType] = useState("university");
@@ -23,19 +24,28 @@ function PracticePapers() {
 
       <div className="content-card">
         <label className="field-label">Examination Type</label>
-        <select value={examType} onChange={(event) => setExamType(event.target.value)}>
-          <option value="university">University Exam</option>
-          <option value="college">College Exam</option>
-        </select>
+        <CustomSelect
+          id="examType"
+          value={examType}
+          onChange={(event) => setExamType(event.target.value)}
+          options={[
+            { value: "university", label: "University Exam", icon: "🎓" },
+            { value: "college", label: "College Exam", icon: "🏛️" },
+          ]}
+          placeholder="Select Examination Type"
+        />
 
         <label className="field-label">Number of Papers</label>
-        <select
+        <CustomSelect
+          id="numberOfPapers"
           value={numberOfPapers}
           onChange={(event) => setNumberOfPapers(event.target.value)}
-        >
-          <option value="1">1 Paper</option>
-          <option value="2">2 Papers</option>
-        </select>
+          options={[
+            { value: "1", label: "1 Paper" },
+            { value: "2", label: "2 Papers" },
+          ]}
+          placeholder="Select Number of Papers"
+        />
 
         <button type="button" onClick={handleGenerate} disabled={loading}>
           {loading ? "Generating..." : "Generate Practice Paper"}

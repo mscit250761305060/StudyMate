@@ -331,56 +331,56 @@ function AdminDashboard() {
 
           <div className="form-group">
             <label htmlFor="courseSelect">Course</label>
-            <select
+            <CustomSelect
               id="courseSelect"
               value={courseId}
               onChange={(event) => handleCourseChange(event.target.value)}
               disabled={!collegeId || loadingCourses}
-              required
-            >
-              <option value="">Select Course</option>
-              {courses.map((course) => (
-                <option key={course.id} value={String(course.id)}>
-                  {course.name}
-                </option>
-              ))}
-            </select>
+              options={[
+                { value: "", label: "Select Course" },
+                ...courses.map((course) => ({
+                  value: String(course.id),
+                  label: course.name,
+                })),
+              ]}
+              placeholder="Select Course"
+            />
           </div>
 
           <div className="form-group">
             <label htmlFor="semesterSelect">Semester</label>
-            <select
+            <CustomSelect
               id="semesterSelect"
               value={semesterId}
               onChange={(event) => handleSemesterChange(event.target.value)}
               disabled={!courseId || loadingSemesters}
-              required
-            >
-              <option value="">Select Semester</option>
-              {semesters.map((semester) => (
-                <option key={semester.id} value={String(semester.id)}>
-                  Semester {semester.number}
-                </option>
-              ))}
-            </select>
+              options={[
+                { value: "", label: "Select Semester" },
+                ...semesters.map((semester) => ({
+                  value: String(semester.id),
+                  label: `Semester ${semester.number}`,
+                })),
+              ]}
+              placeholder="Select Semester"
+            />
           </div>
 
           <div className="form-group">
             <label htmlFor="subjectSelect">Subject</label>
-            <select
+            <CustomSelect
               id="subjectSelect"
               value={subjectId}
               onChange={(event) => handleSubjectChange(event.target.value)}
               disabled={!semesterId || loadingSubjects}
-              required
-            >
-              <option value="">Select Subject</option>
-              {subjects.map((subject) => (
-                <option key={subject.id} value={String(subject.id)}>
-                  {subject.name}
-                </option>
-              ))}
-            </select>
+              options={[
+                { value: "", label: "Select Subject" },
+                ...subjects.map((subject) => ({
+                  value: String(subject.id),
+                  label: subject.name,
+                })),
+              ]}
+              placeholder="Select Subject"
+            />
           </div>
 
 
