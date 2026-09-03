@@ -29,7 +29,7 @@ client = QdrantClient(
     api_key=QDRANT_API_KEY,
     check_compatibility=False,
     timeout=60.0,
-    httpx_client=httpx.Client(limits=httpx.Limits(max_keepalive_connections=0))
+    limits=httpx.Limits(max_keepalive_connections=0)
 )
 
 
