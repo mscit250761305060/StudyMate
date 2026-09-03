@@ -83,7 +83,7 @@ def send_chat_message(session_id: int, request: ChatMessageCreate, db: Session =
     # Generate RAG answer
     answer_text = generate_rag_answer(
         question=request.content,
-        limit=5,
+        limit=15,
         semester_id=session.semester_id,
         subject_id=session.subject_id,
         chat_history=history
