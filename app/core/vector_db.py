@@ -22,11 +22,14 @@ if not QDRANT_API_KEY:
     raise RuntimeError("QDRANT_API_KEY is not configured in .env")
 
 
+import httpx
+
 client = QdrantClient(
     url=QDRANT_URL,
     api_key=QDRANT_API_KEY,
     check_compatibility=False,
     timeout=60.0,
+    httpx_client=httpx.Client(limits=httpx.Limits(max_keepalive_connections=0))
 )
 
 
