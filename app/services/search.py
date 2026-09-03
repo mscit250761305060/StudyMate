@@ -5,6 +5,7 @@ from app.core.vector_db import (
     COLLECTION_NAME,
 )
 from app.services.embedding import generate_embedding
+import time
 
 
 def search_similar_chunks(
@@ -74,12 +75,18 @@ def search_similar_chunks(
             must=conditions
         )
 
-    results = client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=query_embedding,
-        query_filter=search_filter,
-        limit=limit,
-        with_payload=True,
-    )
-
-    return results.points
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            results = client.query_points(
+                collection_name=COLLECTION_NAME,
+                query=query_embedding,
+                query_filter=search_filter,
+                limit=limit,
+                with_payload=True,
+            )
+            return results.points
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise e
+            time.sleep(0.5 * (attempt + 1))
